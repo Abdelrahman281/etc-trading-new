@@ -1,0 +1,37 @@
+[
+  {
+    "id": "fasteners",
+    "name": "Fasteners",
+    "slug": "fasteners",
+    "description": "A comprehensive range of bolts, screws, nuts, washers, and anchors — supplied in DIN-certified grades to meet the demands of construction and electromechanical works.",
+    "image": "/images/categories/fasteners.webp"
+  },
+  {
+    "id": "insulation",
+    "name": "Insulation Materials",
+    "slug": "insulation",
+    "description": "Thermal and acoustic insulation systems — Glass Wool, Rock Wool, and Elastomeric Rubber — in boards, blankets, and pipe sections, plus a full range of installation accessories.",
+    "image": "/images/categories/insulation.webp"
+  },
+  {
+    "id": "electrical",
+    "name": "Electrical Products",
+    "slug": "electrical",
+    "description": "A complete electrical supply line covering conduits, cables, cable trays, and accessories from leading brands including Schneider Electric, ELSEWEDY, and ALEX Cable.",
+    "image": "/images/categories/electric.webp"
+  },
+  {
+    "id": "pipes",
+    "name": "Pipes & Fittings",
+    "slug": "pipes",
+    "description": "Seamless and ERW steel pipes, threaded and welded fittings, flanges, valves, flexible connections, and pipe supports for industrial, mechanical, and HVAC applications.",
+    "image": "/images/categories/pipes.webp"
+  },
+  {
+    "id": "tools-accessories",
+    "name": "Tools & Accessories",
+    "slug": "tools-accessories",
+    "description": "Professional cutting wheels, hammer drills, drill bits, flap wheels, and a full range of hand and electric tools for use in construction, fabrication, and maintenance.",
+    "image": "/images/categories/other-products.webp"
+  }
+]

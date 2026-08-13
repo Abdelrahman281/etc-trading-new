@@ -1,0 +1,7 @@
+[build]
+command = "rm -rf .next .netlify/cache && npx next build"
+publish = ".next"
+
+[build.environment]
+NEXT_PUBLIC_SUPABASE_URL = "https://qlkvaxryjwludbkfayqv.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsa3ZheHJ5andsdWRia2ZheXF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNzI2OTQsImV4cCI6MjEwMTk0ODY5NH0.LiajrOdQJgMtfnuau0NkfjHrThIrOjjcIt5_ybYNQLw"
