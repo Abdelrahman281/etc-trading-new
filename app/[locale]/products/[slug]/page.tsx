@@ -19,14 +19,11 @@ import { Reveal } from '@/components/site/reveal';
 import { Breadcrumbs } from '@/components/site/breadcrumbs';
 import { AddToQuoteButton } from '@/components/site/add-to-quote-button';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
-import {
-  getCatalogCategories,
-  getCatalogCategoryWithDetails,
-} from '@/lib/catalog';
+import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 
 export async function generateStaticParams() {
-  const categories = getCatalogCategories();
+  const categories = await getCategories();
   return categories.map((c) => ({ slug: c.slug }));
 }
 
@@ -36,7 +33,7 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const t = await getTranslations('ProductDetail');
-  const category = getCatalogCategoryWithDetails(params.slug);
+  const category = await getCategoryWithDetails(params.slug);
   if (!category) {
     return { title: t('productNotFound') };
   }
@@ -61,12 +58,12 @@ export default async function CategoryPage({
 }) {
   setRequestLocale(params.locale);
   const [locale, t] = await Promise.all([getLocale(), getTranslations('ProductDetail')]);
-  const category = getCatalogCategoryWithDetails(params.slug);
+  const category = await getCategoryWithDetails(params.slug);
 
   if (!category) notFound();
 
   const Icon = getCategoryIcon(category.icon_name);
-  const allCategories = getCatalogCategories();
+  const allCategories = await getCategories();
   const otherCategories = allCategories.filter((c) => c.slug !== params.slug);
 
   const totalItems = category.subCategories.reduce(
@@ -293,7 +290,7 @@ export default async function CategoryPage({
                           className="group flex items-center justify-between gap-3 rounded-lg border border-navy-100 bg-white p-4 transition-colors hover:border-orange-200 hover:bg-navy-50"
                         >
                           <img
-                            src={item.image}
+                            src={item.image_url ?? ''}
                             alt={item.name}
                             className="h-12 w-12 shrink-0 rounded-md object-cover"
                           />

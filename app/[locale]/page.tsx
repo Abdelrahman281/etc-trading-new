@@ -17,10 +17,7 @@ import { FeaturedProjectsSection } from '@/components/site/featured-projects-sec
 import { IndustriesSection } from '@/components/site/industries-section';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import { companyInfo } from '@/lib/data';
-import {
-  getCatalogCategories,
-  getCatalogFeaturedProducts,
-} from '@/lib/catalog';
+import { getCategories, getFeaturedProducts } from '@/lib/queries';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -44,8 +41,8 @@ export default async function Home({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
   const locale = await getLocale();
   const t = await getTranslations('Home');
-  const productCategories = getCatalogCategories();
-  const featuredProducts = getCatalogFeaturedProducts();
+  const productCategories = await getCategories();
+  const featuredProducts = await getFeaturedProducts();
 
   const stats = [
     { value: '2016', label: t('statEstablished') },
@@ -306,13 +303,13 @@ export default async function Home({ params }: { params: { locale: string } }) {
                   <div className="relative h-36 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={product.image}
+                      src={product.image_url ?? ''}
                       alt={product.name}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
                     <span className="absolute left-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
-                      {productCategories.find((category) => category.slug === product.category_id)?.name ?? product.category_id}
+                      {product.categoryName}
                     </span>
                   </div>
                   <div className="p-4">

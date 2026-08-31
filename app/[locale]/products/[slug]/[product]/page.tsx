@@ -19,15 +19,15 @@ import { Breadcrumbs } from '@/components/site/breadcrumbs';
 import { AddToQuoteButton } from '@/components/site/add-to-quote-button';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import {
-  getCatalogCategoryBySlug,
-  getCatalogProductDetail,
-  getCatalogAllProductSlugs,
-  getCatalogProductsByCategory,
-} from '@/lib/catalog';
+  getCategoryBySlug,
+  getProductDetail,
+  getAllProductSlugs,
+  getProductsByCategory,
+} from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 
 export async function generateStaticParams() {
-  const slugs = getCatalogAllProductSlugs();
+  const slugs = await getAllProductSlugs();
   const locales = ['en', 'ar'];
   return locales.flatMap((locale) =>
     slugs.map((s) => ({ locale, slug: s.category, product: s.product }))
@@ -40,7 +40,7 @@ export async function generateMetadata({
   params: { locale: string; slug: string; product: string };
 }): Promise<Metadata> {
   const t = await getTranslations('ProductDetail');
-  const product = getCatalogProductDetail(params.slug, params.product);
+  const product = await getProductDetail(params.slug, params.product);
   if (!product) {
     return { title: t('productNotFound') };
   }
@@ -69,22 +69,16 @@ export default async function ProductDetailPage({
     getTranslations('ProductDetail'),
   ]);
 
-  const product = getCatalogProductDetail(params.slug, params.product);
+  const product = await getProductDetail(params.slug, params.product);
   if (!product) notFound();
 
-  const category = getCatalogCategoryBySlug(product.category);
+  const category = await getCategoryBySlug(product.category);
   if (!category) notFound();
 
   const Icon = getCategoryIcon(category.icon_name);
 
-  const relatedProducts = (getCatalogProductsByCategory(category.id) as Array<{
-    id: string;
-    name: string;
-    slug?: string;
-    image?: string;
-    spec: string | null;
-  }>)
-    .filter((p) => p.slug !== product.slug && p.slug)
+  const relatedProducts = (await getProductsByCategory(category.id))
+    .filter((p) => p.slug !== product.slug)
     .slice(0, 4);
 
   const specEntries = Object.entries(product.specifications);
@@ -336,7 +330,7 @@ export default async function ProductDetailPage({
                     <div className="relative h-32 overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={p.image}
+                        src={p.image_url ?? ''}
                         alt={p.name}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />

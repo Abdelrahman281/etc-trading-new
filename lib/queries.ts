@@ -98,6 +98,109 @@ export async function getProductById(id: string): Promise<Product | null> {
   return data as Product | null;
 }
 
+export async function getFeaturedProducts(): Promise<
+  (Product & { categoryName: string })[]
+> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('products')
+    .select('*, categories(name)')
+    .eq('featured', true)
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching featured products:', error);
+    return [];
+  }
+
+  return (data as unknown as Array<Product & { categories: { name: string } | null }>).map(
+    ({ categories, ...product }) => ({
+      ...product,
+      categoryName: categories?.name ?? '',
+    })
+  );
+}
+
+export async function getAllProductSlugs(): Promise<
+  { category: string; product: string }[]
+> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('products')
+    .select('slug, categories(slug)');
+
+  if (error) {
+    console.error('Error fetching product slugs:', error);
+    return [];
+  }
+
+  return (data as unknown as Array<{ slug: string; categories: { slug: string } | null }>)
+    .filter((p) => p.categories)
+    .map((p) => ({ category: p.categories!.slug, product: p.slug }));
+}
+
+export interface ProductDetail {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  categoryName: string;
+  subcategory: string;
+  description: string;
+  image: string;
+  images: string[];
+  features: string[];
+  specifications: Record<string, string>;
+  applications: string[];
+  availableSizes: string[];
+  datasheet: string | null;
+  featured: boolean;
+}
+
+export async function getProductDetail(
+  categorySlug: string,
+  productSlug: string
+): Promise<ProductDetail | null> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('products')
+    .select('*, categories(slug, name), sub_categories(name)')
+    .eq('slug', productSlug)
+    .maybeSingle();
+
+  if (error || !data) {
+    if (error) console.error('Error fetching product detail:', error);
+    return null;
+  }
+
+  const row = data as unknown as Product & {
+    categories: { slug: string; name: string } | null;
+    sub_categories: { name: string } | null;
+  };
+
+  if (!row.categories || row.categories.slug !== categorySlug) {
+    return null;
+  }
+
+  return {
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    category: row.categories.slug,
+    categoryName: row.categories.name,
+    subcategory: row.sub_categories?.name ?? '',
+    description: row.spec ?? '',
+    image: row.image_url ?? '',
+    images: row.images,
+    features: row.features,
+    specifications: row.specifications,
+    applications: row.applications,
+    availableSizes: row.available_sizes,
+    datasheet: row.datasheet_url,
+    featured: row.featured,
+  };
+}
+
 export interface CategoryWithDetails extends Category {
   subCategories: (SubCategory & { products: Product[] })[];
 }

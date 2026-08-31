@@ -62,6 +62,35 @@ export async function updateRfqStatus(
 
 // ─── Product CRUD ─────────────────────────────────────────────────────────────
 
+function slugify(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'product'
+  );
+}
+
+async function generateUniqueProductSlug(
+  supabase: ReturnType<typeof createClient>,
+  name: string
+): Promise<string> {
+  const base = slugify(name);
+  let slug = base;
+  let suffix = 2;
+
+  while (true) {
+    const { data } = await supabase
+      .from('products')
+      .select('id')
+      .eq('slug', slug)
+      .maybeSingle();
+    if (!data) return slug;
+    slug = `${base}-${suffix++}`;
+  }
+}
+
 export async function createProduct(formData: FormData): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient();
 
@@ -75,9 +104,12 @@ export async function createProduct(formData: FormData): Promise<{ success: bool
     return { success: false, error: 'Product name and category are required.' };
   }
 
+  const slug = await generateUniqueProductSlug(supabase, name);
+
   const { error } = await supabase.from('products').insert({
     name,
     spec,
+    slug,
     category_id: categoryId,
     sub_category_id: subCategoryId || null,
     sort_order: sortOrder,

@@ -32,9 +32,15 @@ export interface Product {
   sort_order: number;
   created_at: string;
   updated_at: string;
-  image?: string;
-  slug?: string;
-  featured?: boolean;
+  slug: string;
+  image_url: string | null;
+  images: string[];
+  features: string[];
+  specifications: Record<string, string>;
+  applications: string[];
+  available_sizes: string[];
+  datasheet_url: string | null;
+  featured: boolean;
 }
 
 export interface TechSpec {

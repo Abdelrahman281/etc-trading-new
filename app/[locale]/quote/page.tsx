@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PageHeader } from '@/components/site/page-header';
 import { QuoteForm } from '@/components/site/quote-form';
-import { getCatalogCategories } from '@/lib/catalog';
+import { getCategories } from '@/lib/queries';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function QuotePage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
   const t = await getTranslations('Quote');
-  const categories = getCatalogCategories();
+  const categories = await getCategories();
 
   return (
     <>

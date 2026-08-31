@@ -7,12 +7,9 @@ import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
 import { ProductCard } from '@/components/site/product-card';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
-import {
-  getCatalogCategories,
-  getCatalogCategoryWithDetails,
-} from '@/lib/catalog';
+import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
-import type { CatalogCategoryWithDetails } from '@/lib/catalog';
+import type { CategoryWithDetails } from '@/lib/queries';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -30,11 +27,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProductsPage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
   const [locale, t] = await Promise.all([getLocale(), getTranslations('Products')]);
-  const categories = getCatalogCategories();
+  const categories = await getCategories();
 
-  const categoriesWithDetails: CatalogCategoryWithDetails[] = [];
+  const categoriesWithDetails: CategoryWithDetails[] = [];
   for (const cat of categories) {
-    const details = getCatalogCategoryWithDetails(cat.slug);
+    const details = await getCategoryWithDetails(cat.slug);
     if (details) categoriesWithDetails.push(details);
   }
 
