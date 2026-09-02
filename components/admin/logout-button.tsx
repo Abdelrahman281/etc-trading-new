@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 
-export function LogoutButton() {
+export function LogoutButton({ locale }: { locale: string }) {
   const router = useRouter();
   const t = useTranslations('Admin');
 
   async function handleLogout() {
     await createClient().auth.signOut();
-    router.replace('/admin-login');
+    router.replace(`/${locale}/admin-login`);
   }
 
   return (
