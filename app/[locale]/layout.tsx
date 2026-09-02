@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/site/navbar';
 import { Footer } from '@/components/site/footer';
 import { WhatsAppButton } from '@/components/site/whatsapp-button';
+import { RtlProvider } from '@/components/site/rtl-provider';
 import { routing } from '@/i18n/routing';
 
 export async function generateMetadata({
@@ -15,7 +16,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale: params.locale, namespace: 'Metadata' });
   const isArabic = params.locale === 'ar';
   return {
-    metadataBase: new URL('https://etc-engineering.com'),
+    metadataBase: new URL('https://etc-trading.com.eg'),
     title: { default: t('titleDefault'), template: t('titleTemplate') },
     description: t('description'),
     keywords: t('keywords').split(', '),
@@ -57,13 +58,16 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages({ locale });
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
-      <WhatsAppButton />
+      <RtlProvider dir={dir}>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+        <WhatsAppButton />
+      </RtlProvider>
     </NextIntlClientProvider>
   );
 }

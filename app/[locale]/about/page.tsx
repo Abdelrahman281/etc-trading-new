@@ -5,7 +5,7 @@ import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
-import { companyInfo, allProjects } from '@/lib/data';
+import { allProjects } from '@/lib/data';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -148,10 +148,10 @@ export default async function AboutPage({ params }: { params: { locale: string }
                 {t('whoTitle')}
               </h2>
               <p className="mt-5 text-base leading-relaxed text-navy-500">
-                {companyInfo.mission}
+                {t('missionText')}
               </p>
               <p className="mt-4 text-base leading-relaxed text-navy-500">
-                {companyInfo.staffNote}
+                {t('staffNote')}
               </p>
               <p className="mt-4 text-base leading-relaxed text-navy-500">
                 {t('whoRange')}

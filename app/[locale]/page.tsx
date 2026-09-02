@@ -40,7 +40,10 @@ const heroImage =
 export default async function Home({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
   const locale = await getLocale();
-  const t = await getTranslations('Home');
+  const [t, tAbout] = await Promise.all([
+    getTranslations('Home'),
+    getTranslations('About'),
+  ]);
   const productCategories = await getCategories();
   const featuredProducts = await getFeaturedProducts();
 
@@ -205,10 +208,10 @@ export default async function Home({ params }: { params: { locale: string } }) {
                 {t('introTitle')}
               </h2>
               <p className="mt-5 text-base leading-relaxed text-navy-500">
-                {companyInfo.mission}
+                {tAbout('missionText')}
               </p>
               <p className="mt-4 text-base leading-relaxed text-navy-500">
-                {companyInfo.staffNote}
+                {tAbout('staffNote')}
               </p>
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {introChecklist.map((item) => (
