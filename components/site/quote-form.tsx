@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect, useRef, useTransition } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -79,24 +79,32 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
     { name: string; spec?: string; category: string; quantity: number }[]
   >([]);
 
+  const prefilledRef = useRef(false);
+
   useEffect(() => {
-    if (items.length > 0) {
-      setForm((f) => {
-        if (f.message) return f;
-        return { ...f, message: buildCartMessage(items) };
-      });
-      if (items.length > 0 && !form.category) {
-        const firstCat = categories.find(
-          (c) => c.slug === items[0].categorySlug
-        );
-        if (firstCat) {
-          setForm((f) => ({ ...f, category: firstCat.name }));
-        }
+    // CartProvider hydrates `items` from localStorage in its own effect, which
+    // (being a parent) fires after this one on first mount — so `items` can
+    // still be [] the first time this runs. Re-run on `items` changes but only
+    // apply the prefill once, so later cart edits on this page don't stomp on
+    // what the user has already typed.
+    if (prefilledRef.current || items.length === 0) return;
+    prefilledRef.current = true;
+
+    setForm((f) => {
+      if (f.message) return f;
+      return { ...f, message: buildCartMessage(items) };
+    });
+    if (!form.category) {
+      const firstCat = categories.find(
+        (c) => c.slug === items[0].categorySlug
+      );
+      if (firstCat) {
+        setForm((f) => ({ ...f, category: firstCat.name }));
       }
-      setCartSnapshot(items.map((i) => ({ ...i })));
     }
+    setCartSnapshot(items.map((i) => ({ ...i })));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [items]);
 
   const validate = (): boolean => {
     const e: FormErrors = {};
