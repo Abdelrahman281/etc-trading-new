@@ -19,8 +19,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AdminProductsPage({
   params,
+  searchParams,
 }: {
   params: { locale: string };
+  searchParams: { category?: string };
 }) {
   setRequestLocale(params.locale);
   const [locale, t] = await Promise.all([getLocale(), getTranslations('Admin')]);
@@ -46,6 +48,14 @@ export default async function AdminProductsPage({
     dbError = true;
   }
 
+  // Fetch everything and filter in memory (catalog is small) so the
+  // per-category chip counts stay accurate regardless of which filter,
+  // if any, is currently applied.
+  const allProducts = products;
+  if (searchParams.category) {
+    products = allProducts.filter((p) => p.categories.slug === searchParams.category);
+  }
+
   if (dbError) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-center">
@@ -62,7 +72,7 @@ export default async function AdminProductsPage({
         <div>
           <h1 className="font-barlow text-2xl font-bold text-navy-900">{t('productsTitle')}</h1>
           <p className="mt-1 text-sm text-navy-500">
-            {t('productsDesc', { count: products?.length ?? 0 })}
+            {t('productsDesc', { count: allProducts.length })}
           </p>
         </div>
         <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
@@ -76,17 +86,22 @@ export default async function AdminProductsPage({
       <div className="flex flex-wrap gap-2">
         <Link
           href={`/${locale}/admin/products`}
-          className="rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-navy-600 ring-1 ring-navy-200"
+          className={`rounded-lg bg-white px-3 py-1.5 text-xs font-medium ring-1 hover:ring-orange-300 ${
+            searchParams.category ? 'text-navy-600 ring-navy-200' : 'text-orange-600 ring-orange-300'
+          }`}
         >
-          {t('all', { count: products?.length ?? 0 })}
+          {t('all', { count: allProducts.length })}
         </Link>
         {categories.map((cat) => {
-          const count = products?.filter((p) => p.category_id === cat.id).length ?? 0;
+          const count = allProducts.filter((p) => p.category_id === cat.id).length;
+          const active = searchParams.category === cat.slug;
           return (
             <Link
               key={cat.id}
               href={`/${locale}/admin/products?category=${cat.slug}`}
-              className="rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-navy-600 ring-1 ring-navy-200 hover:ring-orange-300"
+              className={`rounded-lg bg-white px-3 py-1.5 text-xs font-medium ring-1 hover:ring-orange-300 ${
+                active ? 'text-orange-600 ring-orange-300' : 'text-navy-600 ring-navy-200'
+              }`}
             >
               {cat.short_name} ({count})
             </Link>
