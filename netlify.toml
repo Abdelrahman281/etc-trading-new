@@ -1,5 +1,5 @@
 [build]
-command = "rm -rf .next .netlify/cache && npx next build"
+command = "next build"
 publish = ".next"
 
 [build.environment]
