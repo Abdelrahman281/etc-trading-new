@@ -57,16 +57,13 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages({ locale });
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <div lang={locale} dir={dir}>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </NextIntlClientProvider>
-    </div>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+      <WhatsAppButton />
+    </NextIntlClientProvider>
   );
 }

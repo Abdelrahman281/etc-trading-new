@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Inter, Barlow_Condensed } from 'next/font/google';
+import { getLocale } from 'next-intl/server';
 import { CartProvider } from '@/lib/cart-context';
 import './globals.css';
 
@@ -12,9 +13,12 @@ const barlow = Barlow_Condensed({
 
 export const dynamic = 'force-dynamic';
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <html lang="en" className={`${inter.variable} ${barlow.variable}`}>
+    <html lang={locale} dir={dir} className={`${inter.variable} ${barlow.variable}`}>
       <body className="font-sans antialiased">
         <CartProvider>{children}</CartProvider>
       </body>
