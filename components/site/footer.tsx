@@ -13,6 +13,7 @@ import {
 import { getLocale, getTranslations } from 'next-intl/server';
 import { companyInfo } from '@/lib/data';
 import { getCategories } from '@/lib/queries';
+import { localized } from '@/lib/localized';
 
 export async function Footer() {
   const t = await getTranslations('Footer');
@@ -98,7 +99,7 @@ export async function Footer() {
                     href={`/${locale}/products/${c.slug}`}
                     className="text-navy-300 transition-colors hover:text-orange-400"
                   >
-                    {c.short_name}
+                    {localized(c.short_name, c.short_name_ar, locale)}
                   </Link>
                 </li>
               ))}

@@ -27,6 +27,7 @@ import { useCart } from '@/lib/cart-context';
 import { useLocale, useTranslations } from 'next-intl';
 import { submitRfq } from '@/lib/actions';
 import { companyInfo } from '@/lib/data';
+import { localized } from '@/lib/localized';
 import type { Category } from '@/lib/types';
 
 interface FormState {
@@ -388,7 +389,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                     <SelectContent>
                       {categories.map((c) => (
                         <SelectItem key={c.slug} value={c.name}>
-                          {c.name}
+                          {localized(c.name, c.name_ar, locale)}
                         </SelectItem>
                       ))}
                     </SelectContent>
