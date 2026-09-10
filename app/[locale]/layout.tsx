@@ -2,9 +2,6 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Navbar } from '@/components/site/navbar';
-import { Footer } from '@/components/site/footer';
-import { WhatsAppButton } from '@/components/site/whatsapp-button';
 import { RtlProvider } from '@/components/site/rtl-provider';
 import { routing } from '@/i18n/routing';
 
@@ -62,12 +59,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <RtlProvider dir={dir}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </RtlProvider>
+      <RtlProvider dir={dir}>{children}</RtlProvider>
     </NextIntlClientProvider>
   );
 }
