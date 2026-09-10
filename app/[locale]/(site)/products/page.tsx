@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight, Package, Tag, Download, ChevronRight } from 'lucide-react';
+import { Package, Tag, Download, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
@@ -11,6 +11,7 @@ import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 import { localized } from '@/lib/localized';
 import type { CategoryWithDetails } from '@/lib/queries';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export const dynamic = 'force-dynamic';
 
@@ -226,7 +227,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
           <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600 shadow-lg">
             <Link href={`/${locale}/quote`}>
               {t('ctaButton')}
-              <ArrowRight className="ms-2 h-4 w-4" />
+              <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

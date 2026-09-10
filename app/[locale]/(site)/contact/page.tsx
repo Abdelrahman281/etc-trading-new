@@ -4,7 +4,6 @@ import {
   MapPin,
   Mail,
   Phone,
-  ArrowRight,
   MessageCircle,
   Download,
   Clock,
@@ -16,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
 import { companyInfo } from '@/lib/data';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -100,7 +100,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                         className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-600 hover:text-orange-700"
                       >
                         {card.action.label}
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <DirectionalArrow direction="forward" className="h-3.5 w-3.5" />
                       </a>
                     )}
                   </div>
@@ -136,7 +136,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                     className="mt-5 inline-flex items-center gap-2 rounded-md bg-navy-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-800"
                   >
                     {t('openGoogleMaps')}
-                    <ArrowRight className="h-4 w-4" />
+                    <DirectionalArrow direction="forward" className="h-4 w-4" />
                   </a>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                   <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                     <Link href={`/${locale}/quote`}>
                       {t('quoteCta')}
-                      <ArrowRight className="ms-2 h-4 w-4" />
+                      <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="border-navy-200">

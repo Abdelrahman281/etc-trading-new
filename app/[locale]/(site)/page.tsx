@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
-  ArrowRight,
   ShieldCheck,
   Truck,
   Award,
@@ -20,6 +19,7 @@ import { companyInfo } from '@/lib/data';
 import { getCategories, getFeaturedProducts } from '@/lib/queries';
 import { localized } from '@/lib/localized';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 // Fetches live catalog data on every request instead of being statically
 // pre-rendered at build time - see lib/queries.ts's retry comment for why
@@ -134,7 +134,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               >
                 <Link href={`/${locale}/quote`}>
                   {t('ctaQuote')}
-                  <ArrowRight className="ms-2 h-4 w-4" />
+                  <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -231,7 +231,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                 <Button asChild className="bg-navy-900 text-white hover:bg-navy-800">
                   <Link href={`/${locale}/about`}>
                     {t('introLearnMore')}
-                    <ArrowRight className="ms-2 h-4 w-4" />
+                    <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button
@@ -280,7 +280,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               <Button asChild size="lg" className="bg-navy-900 text-white hover:bg-navy-800">
                 <Link href={`/${locale}/products`}>
                   {t('categoriesViewAll')}
-                  <ArrowRight className="ms-2 h-4 w-4" />
+                  <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -345,7 +345,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               <Button asChild variant="outline" className="border-navy-200 text-navy-700 hover:bg-navy-50">
                 <Link href={`/${locale}/products`}>
                   {t('featuredSeeFull')}
-                  <ArrowRight className="ms-2 h-4 w-4" />
+                  <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -421,7 +421,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
             >
               <Link href={`/${locale}/quote`}>
                 {t('ctaQuote')}
-                <ArrowRight className="ms-2 h-4 w-4" />
+                <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
               </Link>
             </Button>
             <Button

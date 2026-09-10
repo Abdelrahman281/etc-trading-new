@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  ArrowLeft,
   Building2,
   User,
   Phone,
@@ -19,6 +18,7 @@ import { RfqStatusUpdater } from '@/components/admin/rfq-status-updater';
 import { RetryButton } from '@/components/admin/retry-button';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export async function generateMetadata({ params }: { params: { locale: string; id: string } }): Promise<Metadata> {
   const t = await getTranslations('Admin');
@@ -80,7 +80,7 @@ export default async function AdminRfqDetailPage({
         href={`/${locale}/admin/rfq`}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-navy-500 hover:text-orange-600"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <DirectionalArrow direction="back" className="h-4 w-4" />
         {t('backToRfq')}
       </Link>
 

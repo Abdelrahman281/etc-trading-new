@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import {
   FileText,
-  ArrowRight,
   AlertCircle,
   Clock,
   CheckCircle2,
@@ -14,6 +13,7 @@ import { withTimeout } from '@/lib/with-timeout';
 import { RetryButton } from '@/components/admin/retry-button';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -112,7 +112,7 @@ export default async function AdminRfqListPage({ params }: { params: { locale: s
                     </td>
                     <td className="px-5 py-4">
                       <Link href={`/${locale}/admin/rfq/${rfq.id}`} className="inline-flex items-center text-orange-600 hover:text-orange-700">
-                        <ArrowRight className="h-4 w-4" />
+                        <DirectionalArrow direction="forward" className="h-4 w-4" />
                       </Link>
                     </td>
                   </tr>

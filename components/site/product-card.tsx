@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Package } from 'lucide-react';
+import { Package } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { getCategoryIcon } from '@/lib/icons';
 import { localized } from '@/lib/localized';
 import type { Category } from '@/lib/types';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export function ProductCard({
   category,
@@ -40,7 +41,7 @@ export function ProductCard({
         <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-orange-600">
           <Package className="h-4 w-4" />
           {itemCount !== undefined ? itemCount : '—'} {t('items')}
-          <ArrowRight className="ms-auto h-4 w-4 transition-transform group-hover:translate-x-1" />
+          <DirectionalArrow direction="forward" className="ms-auto h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
       <span className="pointer-events-none absolute end-4 top-4 font-barlow text-xs font-semibold text-white/70">{String(index + 1).padStart(2, '0')}</span>

@@ -3,7 +3,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  ArrowRight,
   Download,
   Linkedin,
   Facebook,
@@ -14,6 +13,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { companyInfo } from '@/lib/data';
 import { getCategories } from '@/lib/queries';
 import { localized } from '@/lib/localized';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export async function Footer() {
   const t = await getTranslations('Footer');
@@ -167,7 +167,7 @@ export async function Footer() {
                 className="inline-flex items-center justify-center gap-2 rounded-md bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
               >
                 {t('requestQuote')}
-                <ArrowRight className="h-4 w-4" />
+                <DirectionalArrow direction="forward" className="h-4 w-4" />
               </Link>
               <a
                 href="/catalog/ETC-Catalog.pdf"

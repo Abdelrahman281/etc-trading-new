@@ -1,11 +1,12 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { getCategories } from '@/lib/queries';
 import { ProductForm } from '@/components/admin/product-form';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -27,7 +28,7 @@ export default async function AdminNewProductPage({
         href={`/${locale}/admin/products`}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-navy-500 hover:text-orange-600"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <DirectionalArrow direction="back" className="h-4 w-4" />
         {t('backToProducts')}
       </Link>
 

@@ -3,8 +3,6 @@ import type { Metadata } from 'next';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import {
-  ArrowRight,
-  ArrowLeft,
   Tag,
   Package,
   CheckCircle2,
@@ -26,6 +24,7 @@ import {
 } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 import { localized } from '@/lib/localized';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export const dynamic = 'force-dynamic';
 
@@ -114,12 +113,15 @@ export default async function ProductDetailPage({
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-start gap-8 lg:grid-cols-2">
             <Reveal>
-              <div className="relative overflow-hidden rounded-2xl border border-navy-100 bg-navy-50">
+              {/* Source product photos are low-resolution (~250-350px); capping
+                  the display box closer to their native size keeps the upscale
+                  factor small instead of visibly pixelating a stretched image. */}
+              <div className="relative mx-auto max-w-sm overflow-hidden rounded-2xl border border-navy-100 bg-navy-50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={product.image}
                   alt={productName}
-                  className="h-[320px] w-full object-cover sm:h-[420px]"
+                  className="h-64 w-full object-contain p-6 sm:h-72"
                 />
                 <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
                   <Icon className="h-7 w-7" />
@@ -167,7 +169,7 @@ export default async function ProductDetailPage({
                 <Button asChild size="lg" variant="outline" className="border-navy-200">
                   <Link href={`/${locale}/cart`}>
                     {t('viewQuoteCart')}
-                    <ArrowRight className="ms-2 h-4 w-4" />
+                    <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -380,7 +382,7 @@ export default async function ProductDetailPage({
             <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600 shadow-lg">
               <Link href="/cart">
                 {t('viewQuoteCart')}
-                <ArrowRight className="ms-2 h-4 w-4" />
+                <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
               </Link>
             </Button>
             <Button
@@ -390,7 +392,7 @@ export default async function ProductDetailPage({
               className="border-navy-600 bg-transparent text-white hover:bg-navy-800 hover:text-white"
             >
               <Link href={`/${locale}/products/${category.slug}`}>
-                <ArrowLeft className="me-2 h-4 w-4" />
+                <DirectionalArrow direction="back" className="me-2 h-4 w-4" />
                 {t('backToCategory', { name: categoryShortName })}
               </Link>
             </Button>

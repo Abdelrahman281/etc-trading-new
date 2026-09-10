@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ArrowRight, Target, Eye, ShieldCheck, Users, Lightbulb, Handshake, Building2, MapPin, Download } from 'lucide-react';
+import { Target, Eye, ShieldCheck, Users, Lightbulb, Handshake, Building2, MapPin, Download } from 'lucide-react';
 import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 import { allProjects } from '@/lib/data';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -173,7 +174,7 @@ export default async function AboutPage({ params }: { params: { locale: string }
                 <Button asChild className="bg-navy-900 text-white hover:bg-navy-800">
                   <Link href={`/${locale}/contact`}>
                     {t('contactUs')}
-                    <ArrowRight className="ms-2 h-4 w-4" />
+                    <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="border-navy-200">
@@ -312,7 +313,7 @@ export default async function AboutPage({ params }: { params: { locale: string }
           <Button asChild size="lg" className="bg-navy-950 text-white hover:bg-navy-900 shadow-lg">
             <Link href={`/${locale}/contact`}>
               {t('contactUs')}
-              <ArrowRight className="ms-2 h-4 w-4" />
+              <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

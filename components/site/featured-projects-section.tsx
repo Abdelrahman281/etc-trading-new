@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Building2, MapPin } from 'lucide-react';
+import { Building2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Reveal } from '@/components/site/reveal';
 import { featuredProjects } from '@/lib/data';
 import { useLocale, useTranslations } from 'next-intl';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export function FeaturedProjectsSection() {
   const t = useTranslations('Projects');
@@ -66,7 +67,7 @@ export function FeaturedProjectsSection() {
             <Button asChild size="lg" className="bg-navy-900 text-white hover:bg-navy-800">
               <Link href={`/${locale}/about#projects`}>
                 {t('viewAll')}
-                <ArrowRight className="ms-2 h-4 w-4" />
+                <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
               </Link>
             </Button>
           </div>

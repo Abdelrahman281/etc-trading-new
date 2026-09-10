@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useTransition } from 'react';
 import Link from 'next/link';
 import {
-  ArrowRight,
   CheckCircle2,
   Send,
   AlertCircle,
@@ -29,6 +28,7 @@ import { submitRfq } from '@/lib/actions';
 import { companyInfo } from '@/lib/data';
 import { localized } from '@/lib/localized';
 import type { Category } from '@/lib/types';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 interface FormState {
   company: string;
@@ -505,7 +505,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                 <Button asChild className="mt-5 w-full bg-orange-500 text-white hover:bg-orange-600">
                   <Link href={`/${locale}/contact`}>
                     {t('contactUs')}
-                    <ArrowRight className="ms-2 h-4 w-4" />
+                    <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>

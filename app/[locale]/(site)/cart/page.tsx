@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import {
   Trash2,
-  ArrowRight,
-  ArrowLeft,
   ShoppingCart,
   Package,
   Minus,
@@ -16,6 +14,7 @@ import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
 import { useCart } from '@/lib/cart-context';
 import { useLocale, useTranslations } from 'next-intl';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export default function CartPage() {
   const locale = useLocale();
@@ -51,7 +50,7 @@ export default function CartPage() {
                   <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                     <Link href={`/${locale}/products`}>
                       {t('browseProducts')}
-                      <ArrowRight className="ms-2 h-4 w-4" />
+                      <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="border-navy-200">
@@ -145,7 +144,7 @@ export default function CartPage() {
                 <div className="mt-6">
                   <Button asChild variant="outline" className="border-navy-200">
                     <Link href={`/${locale}/products`}>
-                      <ArrowLeft className="me-2 h-4 w-4" />
+                      <DirectionalArrow direction="back" className="me-2 h-4 w-4" />
                       {t('continueBrowsing')}
                     </Link>
                   </Button>
@@ -183,7 +182,7 @@ export default function CartPage() {
                   >
                     <Link href={`/${locale}/quote`}>
                       {t('proceedQuote')}
-                      <ArrowRight className="ms-2 h-4 w-4" />
+                      <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button

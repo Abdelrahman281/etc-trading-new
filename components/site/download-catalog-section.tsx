@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Download, ArrowRight, FileText } from 'lucide-react';
+import { Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 interface DownloadCatalogSectionProps {
   variant?: 'dark' | 'orange';
@@ -81,7 +82,7 @@ export function DownloadCatalogSection({
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ms-2 h-4 w-4" />
+              <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
