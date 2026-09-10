@@ -93,7 +93,10 @@ const projectGroups = [
 export default async function AboutPage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
   const locale = await getLocale();
-  const t = await getTranslations('About');
+  const [t, navT] = await Promise.all([
+    getTranslations('About'),
+    getTranslations('Nav'),
+  ]);
 
   const values = [
     {
@@ -170,13 +173,13 @@ export default async function AboutPage({ params }: { params: { locale: string }
                 <Button asChild className="bg-navy-900 text-white hover:bg-navy-800">
                   <Link href={`/${locale}/contact`}>
                     {t('contactUs')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="border-navy-200">
                   <a href="/catalog/ETC-Catalog.pdf" download>
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Catalog
+                    <Download className="me-2 h-4 w-4" />
+                    {navT('downloadCatalog')}
                   </a>
                 </Button>
               </div>
@@ -297,7 +300,7 @@ export default async function AboutPage({ params }: { params: { locale: string }
 
       {/* CTA */}
       <section className="bg-orange-500 py-16">
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
           <div>
             <h2 className="font-barlow text-3xl font-bold text-white sm:text-4xl">
               {t('ctaTitle')}
@@ -309,7 +312,7 @@ export default async function AboutPage({ params }: { params: { locale: string }
           <Button asChild size="lg" className="bg-navy-950 text-white hover:bg-navy-900 shadow-lg">
             <Link href={`/${locale}/contact`}>
               {t('contactUs')}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

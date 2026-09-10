@@ -158,23 +158,23 @@ export default async function ContactPage({ params }: { params: { locale: string
                   <dl className="mt-4 space-y-3 text-sm">
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('company')}</dt>
-                      <dd className="text-right font-medium text-navy-800">
+                      <dd className="text-end font-medium text-navy-800">
                         {companyInfo.shortName}
                       </dd>
                     </div>
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('established')}</dt>
-                      <dd className="text-right font-medium text-navy-800">
+                      <dd className="text-end font-medium text-navy-800">
                         {companyInfo.founded}
                       </dd>
                     </div>
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('location')}</dt>
-                      <dd className="text-right font-medium text-navy-800">{companyInfo.address}</dd>
+                      <dd className="text-end font-medium text-navy-800">{companyInfo.address}</dd>
                     </div>
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('phone')}</dt>
-                      <dd className="text-right">
+                      <dd className="text-end">
                         <a href={`tel:${companyInfo.phone}`} className="font-medium text-orange-600 hover:text-orange-700">
                           {companyInfo.phone}
                         </a>
@@ -182,7 +182,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                     </div>
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('email')}</dt>
-                      <dd className="text-right">
+                      <dd className="text-end">
                         <a href={`mailto:${companyInfo.email}`} className="font-medium text-orange-600 hover:text-orange-700 break-all">
                           {companyInfo.email}
                         </a>
@@ -271,12 +271,12 @@ export default async function ContactPage({ params }: { params: { locale: string
                   <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                     <Link href={`/${locale}/quote`}>
                       {t('quoteCta')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="border-navy-200">
                     <a href="/catalog/ETC-Catalog.pdf" download>
-                      <Download className="mr-2 h-4 w-4" />
+                      <Download className="me-2 h-4 w-4" />
                       {navT('downloadCatalog')}
                     </a>
                   </Button>

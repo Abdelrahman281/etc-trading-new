@@ -114,7 +114,7 @@ export default async function ProductDetailPage({
                   alt={product.name}
                   className="h-[320px] w-full object-cover sm:h-[420px]"
                 />
-                <div className="absolute left-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
+                <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
                   <Icon className="h-7 w-7" />
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default async function ProductDetailPage({
                 <Button asChild size="lg" variant="outline" className="border-navy-200">
                   <Link href={`/${locale}/cart`}>
                     {t('viewQuoteCart')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -219,7 +219,7 @@ export default async function ProductDetailPage({
           {specEntries.length > 0 ? (
             <Reveal delay={100}>
               <div className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-navy-100 shadow-sm">
-                <table className="w-full text-left">
+                <table className="w-full text-start">
                   <tbody className="divide-y divide-navy-100">
                     {specEntries.map(([label, value], i) => (
                       <tr key={label} className={i % 2 === 0 ? 'bg-navy-50' : 'bg-white'}>
@@ -337,7 +337,7 @@ export default async function ProductDetailPage({
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
-                      <h3 className="absolute bottom-2 left-3 right-3 font-barlow text-sm font-semibold text-white">
+                      <h3 className="absolute bottom-2 start-3 end-3 font-barlow text-sm font-semibold text-white">
                         {p.name}
                       </h3>
                     </div>
@@ -359,7 +359,7 @@ export default async function ProductDetailPage({
 
       {/* CTA */}
       <section className="bg-navy-950 py-16">
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
           <div>
             <h2 className="font-barlow text-3xl font-bold text-white sm:text-4xl">
               {t('productCtaTitle')}
@@ -370,7 +370,7 @@ export default async function ProductDetailPage({
             <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600 shadow-lg">
               <Link href="/cart">
                 {t('viewQuoteCart')}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
             </Button>
             <Button
@@ -380,7 +380,7 @@ export default async function ProductDetailPage({
               className="border-navy-600 bg-transparent text-white hover:bg-navy-800 hover:text-white"
             >
               <Link href={`/${locale}/products/${category.slug}`}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="me-2 h-4 w-4" />
                 {t('backToCategory', { name: category.short_name })}
               </Link>
             </Button>

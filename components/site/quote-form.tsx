@@ -181,7 +181,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                   })}
                 </p>
                 {cartSnapshot.length > 0 && (
-                  <div className="mt-6 rounded-lg border border-navy-100 bg-navy-50 p-4 text-left">
+                  <div className="mt-6 rounded-lg border border-navy-100 bg-navy-50 p-4 text-start">
                     <p className="text-xs font-semibold uppercase tracking-wider text-navy-500">
                       {t('successItems', { count: cartSnapshot.length })}
                     </p>
@@ -428,12 +428,12 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
               >
                 {isPending ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="me-2 h-4 w-4 animate-spin" />
                     {t('submitting')}
                   </>
                 ) : (
                   <>
-                    <Send className="mr-2 h-4 w-4" />
+                    <Send className="me-2 h-4 w-4" />
                     {t('submit')}
                   </>
                 )}
@@ -504,7 +504,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                 <Button asChild className="mt-5 w-full bg-orange-500 text-white hover:bg-orange-600">
                   <Link href={`/${locale}/contact`}>
                     {t('contactUs')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>

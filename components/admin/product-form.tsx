@@ -165,9 +165,9 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
           className="bg-orange-500 text-white hover:bg-orange-600"
         >
           {isPending ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="me-2 h-4 w-4 animate-spin" />
           ) : (
-            <Save className="mr-2 h-4 w-4" />
+            <Save className="me-2 h-4 w-4" />
           )}
           {mode === 'create' ? t('create') : t('save')}
         </Button>

@@ -101,7 +101,7 @@ export default async function CategoryPage({
                   alt={category.name}
                   className="h-[320px] w-full object-cover sm:h-[400px]"
                 />
-                <div className="absolute left-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
+                <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
                   <Icon className="h-7 w-7" />
                 </div>
               </div>
@@ -136,14 +136,14 @@ export default async function CategoryPage({
                 {/* TODO: Replace href with real datasheet PDF URL when available */}
                 <Button variant="outline" className="border-navy-200" asChild>
                   <a href="#" download>
-                    <Download className="mr-2 h-4 w-4" />
+                    <Download className="me-2 h-4 w-4" />
                     {t('downloadDatasheet')}
                   </a>
                 </Button>
                 <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                   <Link href={`/${locale}/cart`}>
                     {t('viewQuoteCart')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -201,7 +201,7 @@ export default async function CategoryPage({
             </Reveal>
             <Reveal delay={100}>
               <div className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-navy-100 shadow-sm">
-                <table className="w-full text-left">
+                <table className="w-full text-start">
                   <tbody className="divide-y divide-navy-100">
                     {category.specifications.map((spec, i) => (
                       <tr
@@ -304,7 +304,7 @@ export default async function CategoryPage({
                               </span>
                             </div>
                             {item.spec && (
-                              <span className="ml-5.5 mt-1 block text-xs text-navy-400">
+                              <span className="ms-5.5 mt-1 block text-xs text-navy-400">
                                 {item.spec}
                               </span>
                             )}
@@ -382,7 +382,7 @@ export default async function CategoryPage({
                     <span className="text-sm font-semibold text-navy-800">
                       {cat.short_name}
                     </span>
-                    <ChevronRight className="ml-auto h-4 w-4 text-navy-400 transition-transform group-hover:translate-x-1" />
+                    <ChevronRight className="ms-auto h-4 w-4 text-navy-400 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Reveal>
               );
@@ -396,7 +396,7 @@ export default async function CategoryPage({
 
       {/* CTA */}
       <section className="bg-navy-950 py-16">
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
           <div>
             <h2 className="font-barlow text-3xl font-bold text-white sm:text-4xl">
               {t('ctaTitle')}
@@ -407,14 +407,14 @@ export default async function CategoryPage({
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600 shadow-lg">
-              <Link href="/cart">
-                View Quote Cart
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Link href={`/${locale}/cart`}>
+                {t('viewQuoteCart')}
+                <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-navy-600 bg-transparent text-white hover:bg-navy-800 hover:text-white">
               <Link href={`/${locale}/products`}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="me-2 h-4 w-4" />
                 {t('allProducts')}
               </Link>
             </Button>

@@ -38,7 +38,7 @@ export async function Footer() {
   return (
     <footer className="relative overflow-hidden bg-navy-950 text-navy-100">
       <div className="bg-grid-dark absolute inset-0 opacity-40" />
-      <div className="absolute -top-24 right-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl" />
+      <div className="absolute -top-24 end-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12">

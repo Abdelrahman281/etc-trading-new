@@ -54,7 +54,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
               <h2 className="font-barlow text-2xl font-bold text-navy-900">
                 {t('allCategories')}
               </h2>
-              <span className="ml-auto text-sm text-navy-500">
+              <span className="ms-auto text-sm text-navy-500">
                 {t('categoriesCount', { count: categories.length })}
               </span>
             </div>
@@ -127,7 +127,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                       >
                         <Link href={`/${locale}/products/${cat.slug}`}>
                           {t('viewPage')}
-                          <ChevronRight className="ml-1 h-4 w-4" />
+                          <ChevronRight className="ms-1 h-4 w-4" />
                         </Link>
                       </Button>
                     </div>
@@ -156,7 +156,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                                     </span>
                                   </div>
                                   {item.spec && (
-                                    <span className="ml-5 text-xs text-navy-400">
+                                    <span className="ms-5 text-xs text-navy-400">
                                       {item.spec}
                                     </span>
                                   )}
@@ -194,7 +194,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                     >
                       <Link href={`/${locale}/products/${cat.slug}`}>
                         {t('viewPageShort', { name: cat.short_name })}
-                        <ChevronRight className="ml-1 h-4 w-4" />
+                        <ChevronRight className="ms-1 h-4 w-4" />
                       </Link>
                     </Button>
                   </div>
@@ -210,7 +210,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
 
       {/* CTA */}
       <section className="bg-navy-50 py-16">
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
           <div>
             <h2 className="font-barlow text-3xl font-bold text-navy-900 sm:text-4xl">
               {t('ctaTitle')}
@@ -222,7 +222,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
           <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600 shadow-lg">
             <Link href={`/${locale}/quote`}>
               {t('ctaButton')}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

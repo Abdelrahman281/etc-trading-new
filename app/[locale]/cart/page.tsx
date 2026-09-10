@@ -51,12 +51,12 @@ export default function CartPage() {
                   <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                     <Link href={`/${locale}/products`}>
                       {t('browseProducts')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="border-navy-200">
                     <Link href={`/${locale}/quote`}>
-                      <FileText className="mr-2 h-4 w-4" />
+                      <FileText className="me-2 h-4 w-4" />
                       {t('directQuote')}
                     </Link>
                   </Button>
@@ -145,7 +145,7 @@ export default function CartPage() {
                 <div className="mt-6">
                   <Button asChild variant="outline" className="border-navy-200">
                     <Link href={`/${locale}/products`}>
-                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      <ArrowLeft className="me-2 h-4 w-4" />
                       {t('continueBrowsing')}
                     </Link>
                   </Button>
@@ -183,7 +183,7 @@ export default function CartPage() {
                   >
                     <Link href={`/${locale}/quote`}>
                       {t('proceedQuote')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ms-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button

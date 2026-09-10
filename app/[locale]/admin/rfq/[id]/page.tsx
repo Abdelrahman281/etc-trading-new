@@ -163,13 +163,13 @@ export default async function AdminRfqDetailPage({
                 </h2>
               </div>
               <div className="mt-4 overflow-hidden rounded-lg border border-navy-100">
-                <table className="w-full text-left text-sm">
+                <table className="w-full text-start text-sm">
                   <thead className="bg-navy-50">
                     <tr>
                       <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('productCol')}</th>
                       <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('specCol')}</th>
                       <th className="px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('categoryCol')}</th>
-                      <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-navy-500">{t('qtyCol')}</th>
+                      <th className="px-4 py-2.5 text-end text-xs font-semibold uppercase tracking-wider text-navy-500">{t('qtyCol')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-navy-50">
@@ -182,7 +182,7 @@ export default async function AdminRfqDetailPage({
                           {item.spec ?? '—'}
                         </td>
                         <td className="px-4 py-3 text-navy-500">{item.category}</td>
-                        <td className="px-4 py-3 text-right font-semibold text-navy-900">
+                        <td className="px-4 py-3 text-end font-semibold text-navy-900">
                           {item.quantity}
                         </td>
                       </tr>

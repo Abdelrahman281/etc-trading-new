@@ -19,7 +19,7 @@ export function PageHeader({
       )}
     >
       <div className="bg-grid-dark absolute inset-0 opacity-40" />
-      <div className="absolute -right-20 -top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+      <div className="absolute -end-20 -top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {eyebrow && (
           <span className="animate-fade-up text-sm font-semibold uppercase tracking-wider text-orange-400">

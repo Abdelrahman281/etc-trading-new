@@ -39,7 +39,7 @@ export function FeaturedProjectsSection() {
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent" />
-                  <span className="absolute left-3 top-3 rounded-md bg-navy-900/80 px-2.5 py-1 text-xs font-semibold text-orange-400 backdrop-blur-sm">
+                  <span className="absolute start-3 top-3 rounded-md bg-navy-900/80 px-2.5 py-1 text-xs font-semibold text-orange-400 backdrop-blur-sm">
                     {project.sector}
                   </span>
                 </div>
@@ -66,7 +66,7 @@ export function FeaturedProjectsSection() {
             <Button asChild size="lg" className="bg-navy-900 text-white hover:bg-navy-800">
               <Link href={`/${locale}/about#projects`}>
                 {t('viewAll')}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
             </Button>
           </div>

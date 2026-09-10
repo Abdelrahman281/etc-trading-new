@@ -22,7 +22,7 @@ export function DownloadCatalogSection({
       }
     >
       <div className="bg-grid-dark absolute inset-0 opacity-20" />
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
         <div className="flex items-center gap-5">
           <div
             className={
@@ -65,7 +65,7 @@ export function DownloadCatalogSection({
             }
           >
             <a href="/catalog/ETC-Catalog.pdf" download>
-              <Download className="mr-2 h-4 w-4" />
+              <Download className="me-2 h-4 w-4" />
               {t('download')}
             </a>
           </Button>
@@ -81,7 +81,7 @@ export function DownloadCatalogSection({
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

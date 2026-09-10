@@ -77,7 +77,7 @@ export default async function AdminProductsPage({
         </div>
         <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
           <Link href={`/${locale}/admin/products/new`}>
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="me-2 h-4 w-4" />
             {t('addProduct')}
           </Link>
         </Button>
@@ -110,14 +110,14 @@ export default async function AdminProductsPage({
       </div>
 
       <div className="overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm">
-        <table className="hidden w-full text-left sm:table">
+        <table className="hidden w-full text-start sm:table">
           <thead className="border-b border-navy-100 bg-navy-50">
             <tr>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('productCol')}</th>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('specCol')}</th>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('categoryCol')}</th>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('orderCol')}</th>
-              <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-navy-500">{t('actionsCol')}</th>
+              <th className="px-5 py-3 text-end text-xs font-semibold uppercase tracking-wider text-navy-500">{t('actionsCol')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-navy-50">
@@ -204,7 +204,7 @@ export default async function AdminProductsPage({
           <p className="mt-3 text-sm text-navy-500">{t('noProducts')}</p>
           <Button asChild className="mt-4 bg-orange-500 text-white hover:bg-orange-600">
             <Link href={`/${locale}/admin/products/new`}>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="me-2 h-4 w-4" />
               {t('addFirstProduct')}
             </Link>
           </Button>

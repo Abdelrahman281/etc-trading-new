@@ -106,7 +106,7 @@ export function Navbar() {
           >
             <ShoppingCart className="h-5 w-5" />
             {count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-white">
+              <span className="absolute -end-0.5 -top-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-orange-500 px-1 text-xs font-bold text-white">
                 {count}
               </span>
             )}
@@ -118,7 +118,7 @@ export function Navbar() {
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
@@ -178,7 +178,7 @@ export function Navbar() {
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ms-2 h-4 w-4" />
             </Link>
           </Button>
           <a

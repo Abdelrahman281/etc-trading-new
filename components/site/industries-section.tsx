@@ -9,7 +9,7 @@ export function IndustriesSection() {
   return (
     <section className="relative overflow-hidden bg-navy-950 py-20 text-white sm:py-24">
       <div className="bg-grid-dark absolute inset-0 opacity-40" />
-      <div className="absolute -left-20 bottom-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+      <div className="absolute -start-20 bottom-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">

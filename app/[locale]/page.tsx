@@ -101,7 +101,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40" />
         <div className="bg-grid-dark absolute inset-0 opacity-50" />
-        <div className="absolute -left-20 top-1/3 h-72 w-72 rounded-full bg-orange-500/15 blur-3xl" />
+        <div className="absolute -start-20 top-1/3 h-72 w-72 rounded-full bg-orange-500/15 blur-3xl" />
 
         <div className="relative mx-auto w-full max-w-7xl px-4 pt-28 pb-16 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
@@ -133,7 +133,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               >
                 <Link href={`/${locale}/quote`}>
                   {t('ctaQuote')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -151,7 +151,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                 className="border-orange-500/50 bg-orange-500/10 text-orange-300 backdrop-blur-sm hover:bg-orange-500/20 hover:text-orange-200"
               >
                 <a href="/catalog/ETC-Catalog.pdf" download>
-                  <Download className="mr-2 h-4 w-4" />
+                  <Download className="me-2 h-4 w-4" />
                   {t('ctaCatalog')}
                 </a>
               </Button>
@@ -198,7 +198,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                     className="h-[420px] w-full object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-6 -right-6 hidden rounded-xl bg-orange-500 p-6 text-white shadow-xl sm:block">
+                <div className="absolute -bottom-6 -end-6 hidden rounded-xl bg-orange-500 p-6 text-white shadow-xl sm:block">
                   <div className="font-barlow text-4xl font-bold">{companyInfo.founded}</div>
                   <div className="text-xs uppercase tracking-wider text-orange-100">{t('introEstablished')}</div>
                 </div>
@@ -230,7 +230,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                 <Button asChild className="bg-navy-900 text-white hover:bg-navy-800">
                   <Link href={`/${locale}/about`}>
                     {t('introLearnMore')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button
@@ -239,7 +239,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                   className="border-navy-200 text-navy-700 hover:bg-navy-50"
                 >
                   <a href="/catalog/ETC-Catalog.pdf" download>
-                    <Download className="mr-2 h-4 w-4" />
+                    <Download className="me-2 h-4 w-4" />
                     {t('ctaCatalog')}
                   </a>
                 </Button>
@@ -279,7 +279,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               <Button asChild size="lg" className="bg-navy-900 text-white hover:bg-navy-800">
                 <Link href={`/${locale}/products`}>
                   {t('categoriesViewAll')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -316,7 +316,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
-                    <span className="absolute left-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
+                    <span className="absolute start-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
                       {product.categoryName}
                     </span>
                   </div>
@@ -336,7 +336,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               <Button asChild variant="outline" className="border-navy-200 text-navy-700 hover:bg-navy-50">
                 <Link href={`/${locale}/products`}>
                   {t('featuredSeeFull')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ms-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -347,7 +347,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       {/* ===== Why Choose ETC ===== */}
       <section className="relative overflow-hidden bg-navy-950 py-20 text-white sm:py-24">
         <div className="bg-grid-dark absolute inset-0 opacity-40" />
-        <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="absolute -end-20 top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
@@ -395,7 +395,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       {/* ===== CTA ===== */}
       <section className="relative overflow-hidden bg-orange-500 py-16">
         <div className="bg-grid-dark absolute inset-0 opacity-20" />
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-start lg:px-8">
           <div>
             <h2 className="font-barlow text-3xl font-bold text-white sm:text-4xl">
               {t('ctaTitle')}
@@ -412,7 +412,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
             >
               <Link href={`/${locale}/quote`}>
                 {t('ctaQuote')}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
             </Button>
             <Button
@@ -421,7 +421,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
               className="bg-white text-orange-600 hover:bg-orange-50 shadow-lg"
             >
               <a href="/catalog/ETC-Catalog.pdf" download>
-                <Download className="mr-2 h-4 w-4" />
+                <Download className="me-2 h-4 w-4" />
                 {t('ctaCatalog')}
               </a>
             </Button>

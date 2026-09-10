@@ -70,7 +70,7 @@ export default async function AdminRfqListPage({ params }: { params: { locale: s
       ) : (
         <div className="overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm">
           {/* Desktop table */}
-          <table className="hidden w-full text-left sm:table">
+          <table className="hidden w-full text-start sm:table">
             <thead className="border-b border-navy-100 bg-navy-50">
               <tr>
                 <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('companyCol')}</th>
