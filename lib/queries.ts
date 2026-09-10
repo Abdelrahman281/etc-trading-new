@@ -9,14 +9,32 @@ import type {
 
 export { getCategoryIcon } from '@/lib/icons';
 
+// Vercel's serverless functions occasionally hit a transient DNS resolution
+// failure on the first fetch to an external host (e.g. Supabase) right after
+// a cold start. A couple of quick retries clears this up without needing the
+// visitor to reload the page.
+async function withRetry<T, E>(
+  fn: () => PromiseLike<{ data: T; error: E | null }>,
+  attempts = 3
+): Promise<{ data: T; error: E | null }> {
+  let result = await fn();
+  for (let attempt = 1; result.error && attempt < attempts; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, 200 * attempt));
+    result = await fn();
+  }
+  return result;
+}
+
 // ─── Categories ──────────────────────────────────────────────────────────────
 
 export async function getCategories(): Promise<Category[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('sort_order', { ascending: true });
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('categories')
+      .select('*')
+      .order('sort_order', { ascending: true })
+  );
 
   if (error) {
     console.error('Error fetching categories:', error);
@@ -28,11 +46,9 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle();
+  const { data, error } = await withRetry(() =>
+    supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
+  );
 
   if (error) {
     console.error('Error fetching category:', error);
@@ -48,11 +64,13 @@ export async function getSubCategoriesByCategory(
   categoryId: string
 ): Promise<SubCategory[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('sub_categories')
-    .select('*')
-    .eq('category_id', categoryId)
-    .order('sort_order', { ascending: true });
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('sub_categories')
+      .select('*')
+      .eq('category_id', categoryId)
+      .order('sort_order', { ascending: true })
+  );
 
   if (error) {
     console.error('Error fetching sub-categories:', error);
@@ -68,11 +86,13 @@ export async function getProductsByCategory(
   categoryId: string
 ): Promise<Product[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('category_id', categoryId)
-    .order('sort_order', { ascending: true });
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('products')
+      .select('*')
+      .eq('category_id', categoryId)
+      .order('sort_order', { ascending: true })
+  );
 
   if (error) {
     console.error('Error fetching products:', error);
@@ -84,11 +104,9 @@ export async function getProductsByCategory(
 
 export async function getProductById(id: string): Promise<Product | null> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data, error } = await withRetry(() =>
+    supabase.from('products').select('*').eq('id', id).maybeSingle()
+  );
 
   if (error) {
     console.error('Error fetching product:', error);
@@ -102,11 +120,13 @@ export async function getFeaturedProducts(): Promise<
   (Product & { categoryName: string })[]
 > {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('products')
-    .select('*, categories(name)')
-    .eq('featured', true)
-    .order('sort_order', { ascending: true });
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('products')
+      .select('*, categories(name)')
+      .eq('featured', true)
+      .order('sort_order', { ascending: true })
+  );
 
   if (error) {
     console.error('Error fetching featured products:', error);
@@ -125,9 +145,9 @@ export async function getAllProductSlugs(): Promise<
   { category: string; product: string }[]
 > {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('products')
-    .select('slug, categories(slug)');
+  const { data, error } = await withRetry(() =>
+    supabase.from('products').select('slug, categories(slug)')
+  );
 
   if (error) {
     console.error('Error fetching product slugs:', error);
@@ -162,11 +182,13 @@ export async function getProductDetail(
   productSlug: string
 ): Promise<ProductDetail | null> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('products')
-    .select('*, categories(slug, name), sub_categories(name)')
-    .eq('slug', productSlug)
-    .maybeSingle();
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('products')
+      .select('*, categories(slug, name), sub_categories(name)')
+      .eq('slug', productSlug)
+      .maybeSingle()
+  );
 
   if (error || !data) {
     if (error) console.error('Error fetching product detail:', error);
@@ -275,10 +297,12 @@ export async function createRfqRequest(
 
 export async function getRfqRequests(): Promise<RfqRequest[]> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('rfq_requests')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('rfq_requests')
+      .select('*')
+      .order('created_at', { ascending: false })
+  );
 
   if (error) {
     console.error('Error fetching RFQ requests:', error);
@@ -290,11 +314,13 @@ export async function getRfqRequests(): Promise<RfqRequest[]> {
 
 export async function getRfqRequestById(id: string): Promise<RfqRequest | null> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('rfq_requests')
-    .select('*, rfq_items(*)')
-    .eq('id', id)
-    .maybeSingle();
+  const { data, error } = await withRetry(() =>
+    supabase
+      .from('rfq_requests')
+      .select('*, rfq_items(*)')
+      .eq('id', id)
+      .maybeSingle()
+  );
 
   if (error) {
     console.error('Error fetching RFQ request:', error);
