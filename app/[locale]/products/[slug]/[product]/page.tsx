@@ -26,6 +26,8 @@ import {
 } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateStaticParams() {
   const slugs = await getAllProductSlugs();
   const locales = ['en', 'ar'];

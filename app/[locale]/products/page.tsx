@@ -11,6 +11,8 @@ import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 import type { CategoryWithDetails } from '@/lib/queries';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
   return {

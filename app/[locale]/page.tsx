@@ -20,6 +20,11 @@ import { companyInfo } from '@/lib/data';
 import { getCategories, getFeaturedProducts } from '@/lib/queries';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 
+// Fetches live catalog data on every request instead of being statically
+// pre-rendered at build time - see lib/queries.ts's retry comment for why
+// build-time data can't be trusted here.
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const t = await getTranslations({ locale: params.locale, namespace: 'Metadata' });
   return {

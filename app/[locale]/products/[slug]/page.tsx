@@ -22,6 +22,8 @@ import { DownloadCatalogSection } from '@/components/site/download-catalog-secti
 import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateStaticParams() {
   const categories = await getCategories();
   return categories.map((c) => ({ slug: c.slug }));
