@@ -25,6 +25,7 @@ import {
   getProductsByCategory,
 } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
+import { localized } from '@/lib/localized';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,14 +47,15 @@ export async function generateMetadata({
   if (!product) {
     return { title: t('productNotFound') };
   }
+  const name = localized(product.name, product.nameAr, params.locale);
   return {
-    title: `${product.name} | ETC Electromechanical Supply`,
+    title: `${name} | ETC Electromechanical Supply`,
     description: product.description,
     alternates: {
       canonical: `/products/${product.category}/${product.slug}`,
     },
     openGraph: {
-      title: `${product.name} | ETC`,
+      title: `${name} | ETC`,
       description: product.description,
       images: [{ url: product.image }],
     },
@@ -85,11 +87,16 @@ export default async function ProductDetailPage({
 
   const specEntries = Object.entries(product.specifications);
 
+  const productName = localized(product.name, product.nameAr, locale);
+  const categoryName = localized(category.name, category.name_ar, locale);
+  const categoryShortName = localized(category.short_name, category.short_name_ar, locale);
+  const subcategoryName = localized(product.subcategory, product.subcategoryAr, locale);
+
   return (
     <>
       <PageHeader
         eyebrow={t('productDetailEyebrow')}
-        title={product.name}
+        title={productName}
         subtitle={product.description}
       />
 
@@ -97,8 +104,8 @@ export default async function ProductDetailPage({
         items={[
           { label: t('home'), href: `/${locale}` },
           { label: t('products'), href: `/${locale}/products` },
-          { label: category.name, href: `/${locale}/products/${category.slug}` },
-          { label: product.name },
+          { label: categoryName, href: `/${locale}/products/${category.slug}` },
+          { label: productName },
         ]}
       />
 
@@ -111,7 +118,7 @@ export default async function ProductDetailPage({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={productName}
                   className="h-[320px] w-full object-cover sm:h-[420px]"
                 />
                 <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
@@ -124,7 +131,7 @@ export default async function ProductDetailPage({
                 {t('overview')}
               </span>
               <h2 className="mt-3 font-barlow text-3xl font-bold text-navy-900 sm:text-4xl">
-                {product.name}
+                {productName}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-navy-500">
                 {product.description}
@@ -134,13 +141,13 @@ export default async function ProductDetailPage({
                 <div className="flex items-center gap-2 rounded-lg bg-navy-50 px-4 py-2.5">
                   <Tag className="h-5 w-5 text-orange-500" />
                   <span className="text-sm font-medium text-navy-700">
-                    {t('category')}: {category.name}
+                    {t('category')}: {categoryName}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 rounded-lg bg-navy-50 px-4 py-2.5">
                   <Package className="h-5 w-5 text-orange-500" />
                   <span className="text-sm font-medium text-navy-700">
-                    {t('subcategory')}: {product.subcategory}
+                    {t('subcategory')}: {subcategoryName}
                   </span>
                 </div>
               </div>
@@ -318,12 +325,14 @@ export default async function ProductDetailPage({
               <div className="flex items-center gap-3">
                 <Layers className="h-6 w-6 text-orange-500" />
                 <h2 className="font-barlow text-2xl font-bold text-navy-900">
-                  {t('relatedProducts', { name: category.name })}
+                  {t('relatedProducts', { name: categoryName })}
                 </h2>
               </div>
             </Reveal>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {relatedProducts.map((p, i) => (
+              {relatedProducts.map((p, i) => {
+                const relatedName = localized(p.name, p.name_ar, locale);
+                return (
                 <Reveal key={p.id} delay={i * 50}>
                   <Link
                     href={`/${locale}/products/${category.slug}/${p.slug}`}
@@ -333,12 +342,12 @@ export default async function ProductDetailPage({
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={p.image_url ?? ''}
-                        alt={p.name}
+                        alt={relatedName}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
                       <h3 className="absolute bottom-2 start-3 end-3 font-barlow text-sm font-semibold text-white">
-                        {p.name}
+                        {relatedName}
                       </h3>
                     </div>
                     {p.spec && (
@@ -348,7 +357,8 @@ export default async function ProductDetailPage({
                     )}
                   </Link>
                 </Reveal>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -381,7 +391,7 @@ export default async function ProductDetailPage({
             >
               <Link href={`/${locale}/products/${category.slug}`}>
                 <ArrowLeft className="me-2 h-4 w-4" />
-                {t('backToCategory', { name: category.short_name })}
+                {t('backToCategory', { name: categoryShortName })}
               </Link>
             </Button>
           </div>

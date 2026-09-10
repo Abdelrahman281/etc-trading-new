@@ -117,13 +117,13 @@ export async function getProductById(id: string): Promise<Product | null> {
 }
 
 export async function getFeaturedProducts(): Promise<
-  (Product & { categoryName: string })[]
+  (Product & { categoryName: string; categoryNameAr: string | null })[]
 > {
   const supabase = createClient();
   const { data, error } = await withRetry(() =>
     supabase
       .from('products')
-      .select('*, categories(name)')
+      .select('*, categories(name, name_ar)')
       .eq('featured', true)
       .order('sort_order', { ascending: true })
   );
@@ -133,12 +133,15 @@ export async function getFeaturedProducts(): Promise<
     return [];
   }
 
-  return (data as unknown as Array<Product & { categories: { name: string } | null }>).map(
-    ({ categories, ...product }) => ({
-      ...product,
-      categoryName: categories?.name ?? '',
-    })
-  );
+  return (
+    data as unknown as Array<
+      Product & { categories: { name: string; name_ar: string | null } | null }
+    >
+  ).map(({ categories, ...product }) => ({
+    ...product,
+    categoryName: categories?.name ?? '',
+    categoryNameAr: categories?.name_ar ?? null,
+  }));
 }
 
 export async function getAllProductSlugs(): Promise<
@@ -162,10 +165,13 @@ export async function getAllProductSlugs(): Promise<
 export interface ProductDetail {
   id: string;
   name: string;
+  nameAr: string | null;
   slug: string;
   category: string;
   categoryName: string;
+  categoryNameAr: string | null;
   subcategory: string;
+  subcategoryAr: string | null;
   description: string;
   image: string;
   images: string[];
@@ -185,7 +191,7 @@ export async function getProductDetail(
   const { data, error } = await withRetry(() =>
     supabase
       .from('products')
-      .select('*, categories(slug, name), sub_categories(name)')
+      .select('*, categories(slug, name, name_ar), sub_categories(name, name_ar)')
       .eq('slug', productSlug)
       .maybeSingle()
   );
@@ -196,8 +202,8 @@ export async function getProductDetail(
   }
 
   const row = data as unknown as Product & {
-    categories: { slug: string; name: string } | null;
-    sub_categories: { name: string } | null;
+    categories: { slug: string; name: string; name_ar: string | null } | null;
+    sub_categories: { name: string; name_ar: string | null } | null;
   };
 
   if (!row.categories || row.categories.slug !== categorySlug) {
@@ -207,10 +213,13 @@ export async function getProductDetail(
   return {
     id: row.id,
     name: row.name,
+    nameAr: row.name_ar,
     slug: row.slug,
     category: row.categories.slug,
     categoryName: row.categories.name,
+    categoryNameAr: row.categories.name_ar,
     subcategory: row.sub_categories?.name ?? '',
+    subcategoryAr: row.sub_categories?.name_ar ?? null,
     description: row.spec ?? '',
     image: row.image_url ?? '',
     images: row.images,

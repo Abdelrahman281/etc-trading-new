@@ -21,6 +21,7 @@ import { AddToQuoteButton } from '@/components/site/add-to-quote-button';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
+import { localized } from '@/lib/localized';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,22 +33,24 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { locale: string; slug: string };
 }): Promise<Metadata> {
   const t = await getTranslations('ProductDetail');
   const category = await getCategoryWithDetails(params.slug);
   if (!category) {
     return { title: t('productNotFound') };
   }
+  const name = localized(category.name, category.name_ar, params.locale);
+  const description = localized(category.description, category.description_ar, params.locale);
   return {
-    title: `${category.name} | ETC Electromechanical Supply`,
-    description: category.description,
+    title: `${name} | ETC Electromechanical Supply`,
+    description,
     alternates: {
       canonical: `/products/${category.slug}`,
     },
     openGraph: {
-      title: `${category.name} | ETC`,
-      description: category.description,
+      title: `${name} | ETC`,
+      description,
       images: [{ url: category.image_url }],
     },
   };
@@ -73,19 +76,23 @@ export default async function CategoryPage({
     0
   );
 
+  const categoryName = localized(category.name, category.name_ar, locale);
+  const categoryDescription = localized(category.description, category.description_ar, locale);
+  const categoryShortName = localized(category.short_name, category.short_name_ar, locale);
+
   return (
     <>
       <PageHeader
         eyebrow={t('eyebrow')}
-        title={category.name}
-        subtitle={category.description}
+        title={categoryName}
+        subtitle={categoryDescription}
       />
 
       <Breadcrumbs
         items={[
           { label: t('home'), href: `/${locale}` },
           { label: t('products'), href: `/${locale}/products` },
-          { label: category.name },
+          { label: categoryName },
         ]}
       />
 
@@ -98,7 +105,7 @@ export default async function CategoryPage({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={category.image_url}
-                  alt={category.name}
+                  alt={categoryName}
                   className="h-[320px] w-full object-cover sm:h-[400px]"
                 />
                 <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
@@ -111,10 +118,10 @@ export default async function CategoryPage({
                 {t('overview')}
               </span>
               <h2 className="mt-3 font-barlow text-3xl font-bold text-navy-900 sm:text-4xl">
-                {category.name}
+                {categoryName}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-navy-500">
-                {category.description}
+                {categoryDescription}
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2 rounded-lg bg-navy-50 px-4 py-2.5">
@@ -159,13 +166,13 @@ export default async function CategoryPage({
             <Reveal>
               <div className="mx-auto max-w-2xl text-center">
                 <span className="text-sm font-semibold uppercase tracking-wider text-orange-600">
-                  {t('whyChoose', { name: category.short_name })}
+                  {t('whyChoose', { name: categoryShortName })}
                 </span>
                 <h2 className="mt-3 font-barlow text-3xl font-bold text-navy-900 sm:text-4xl">
                   {t('keyFeatures')}
                 </h2>
                 <p className="mt-4 text-base text-navy-500">
-                  {t('keyFeaturesSubtitle', { name: category.short_name })}
+                  {t('keyFeaturesSubtitle', { name: categoryShortName })}
                 </p>
               </div>
             </Reveal>
@@ -237,7 +244,7 @@ export default async function CategoryPage({
                   {t('commonApplications')}
                 </h2>
                 <p className="mt-4 text-base text-navy-500">
-                  {t('commonApplicationsSubtitle', { name: category.short_name })}
+                  {t('commonApplicationsSubtitle', { name: categoryShortName })}
                 </p>
               </div>
             </Reveal>
@@ -282,10 +289,12 @@ export default async function CategoryPage({
                 <Reveal key={sub.id} delay={si * 60}>
                   <div className="rounded-2xl border border-navy-100 bg-navy-50 p-6 shadow-sm sm:p-8">
                     <h3 className="font-barlow text-xl font-bold text-navy-900">
-                      {sub.name}
+                      {localized(sub.name, sub.name_ar, locale)}
                     </h3>
                     <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {sub.products.map((item) => (
+                      {sub.products.map((item) => {
+                        const itemName = localized(item.name, item.name_ar, locale);
+                        return (
                         <Link
                           key={item.id}
                           href={`/${locale}/products/${category.slug}/${item.slug}`}
@@ -293,14 +302,14 @@ export default async function CategoryPage({
                         >
                           <img
                             src={item.image_url ?? ''}
-                            alt={item.name}
+                            alt={itemName}
                             className="h-12 w-12 shrink-0 rounded-md object-cover"
                           />
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <Tag className="h-3.5 w-3.5 shrink-0 text-orange-400" />
                               <span className="text-sm font-semibold text-navy-800 group-hover:text-orange-600">
-                                {item.name}
+                                {itemName}
                               </span>
                             </div>
                             {item.spec && (
@@ -318,7 +327,8 @@ export default async function CategoryPage({
                             }}
                           />
                         </Link>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </Reveal>
@@ -380,7 +390,7 @@ export default async function CategoryPage({
                       <OtherIcon className="h-5 w-5" />
                     </div>
                     <span className="text-sm font-semibold text-navy-800">
-                      {cat.short_name}
+                      {localized(cat.short_name, cat.short_name_ar, locale)}
                     </span>
                     <ChevronRight className="ms-auto h-4 w-4 text-navy-400 transition-transform group-hover:translate-x-1" />
                   </Link>

@@ -9,6 +9,7 @@ import { ProductCard } from '@/components/site/product-card';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
+import { localized } from '@/lib/localized';
 import type { CategoryWithDetails } from '@/lib/queries';
 
 export const dynamic = 'force-dynamic';
@@ -103,6 +104,9 @@ export default async function ProductsPage({ params }: { params: { locale: strin
           <div className="mt-12 space-y-12">
             {categoriesWithDetails.map((cat, ci) => {
               const Icon = getCategoryIcon(cat.icon_name);
+              const catName = localized(cat.name, cat.name_ar, locale);
+              const catDescription = localized(cat.description, cat.description_ar, locale);
+              const catShortName = localized(cat.short_name, cat.short_name_ar, locale);
               return (
                 <Reveal key={cat.slug} delay={ci * 60}>
                   <div className="rounded-2xl border border-navy-100 bg-navy-50 p-6 sm:p-8">
@@ -114,9 +118,9 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                         </div>
                         <div>
                           <h3 className="font-barlow text-2xl font-bold text-navy-900">
-                            {cat.name}
+                            {catName}
                           </h3>
-                          <p className="mt-1 text-sm text-navy-500">{cat.description}</p>
+                          <p className="mt-1 text-sm text-navy-500">{catDescription}</p>
                         </div>
                       </div>
                       <Button
@@ -141,7 +145,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                             className="rounded-lg border border-navy-100 bg-white p-4"
                           >
                             <h4 className="font-barlow text-sm font-semibold uppercase tracking-wide text-orange-600">
-                              {sub.name}
+                              {localized(sub.name, sub.name_ar, locale)}
                             </h4>
                             <ul className="mt-3 space-y-2">
                               {sub.products.map((item) => (
@@ -152,7 +156,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                                   <div className="flex items-center gap-2">
                                     <Tag className="h-3 w-3 shrink-0 text-orange-400" />
                                     <span className="text-sm font-medium text-navy-700">
-                                      {item.name}
+                                      {localized(item.name, item.name_ar, locale)}
                                     </span>
                                   </div>
                                   {item.spec && (
@@ -193,7 +197,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                       className="mt-5 w-full border-orange-300 text-orange-600 hover:bg-orange-50 sm:hidden"
                     >
                       <Link href={`/${locale}/products/${cat.slug}`}>
-                        {t('viewPageShort', { name: cat.short_name })}
+                        {t('viewPageShort', { name: catShortName })}
                         <ChevronRight className="ms-1 h-4 w-4" />
                       </Link>
                     </Button>

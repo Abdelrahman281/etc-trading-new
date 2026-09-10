@@ -2,8 +2,11 @@ export interface Category {
   id: string;
   slug: string;
   name: string;
+  name_ar: string | null;
   short_name: string;
+  short_name_ar: string | null;
   description: string;
+  description_ar: string | null;
   icon_name: string;
   image_url: string;
   brands: string[];
@@ -19,6 +22,7 @@ export interface SubCategory {
   id: string;
   category_id: string;
   name: string;
+  name_ar: string | null;
   sort_order: number;
   products?: Product[];
 }
@@ -28,6 +32,7 @@ export interface Product {
   category_id: string;
   sub_category_id: string | null;
   name: string;
+  name_ar: string | null;
   spec: string | null;
   sort_order: number;
   created_at: string;

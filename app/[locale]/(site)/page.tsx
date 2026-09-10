@@ -18,6 +18,7 @@ import { IndustriesSection } from '@/components/site/industries-section';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import { companyInfo } from '@/lib/data';
 import { getCategories, getFeaturedProducts } from '@/lib/queries';
+import { localized } from '@/lib/localized';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 
 // Fetches live catalog data on every request instead of being statically
@@ -305,30 +306,38 @@ export default async function Home({ params }: { params: { locale: string } }) {
           </Reveal>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts.map((product, i) => (
-              <Reveal key={`${product.name}-${i}`} delay={i * 60}>
-                <div className="group relative overflow-hidden rounded-xl border border-navy-100 bg-navy-50 transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg">
-                  <div className="relative h-36 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={product.image_url ?? ''}
-                      alt={product.name}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
-                    <span className="absolute start-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
-                      {product.categoryName}
-                    </span>
+            {featuredProducts.map((product, i) => {
+              const name = localized(product.name, product.name_ar, locale);
+              const categoryName = localized(
+                product.categoryName,
+                product.categoryNameAr,
+                locale
+              );
+              return (
+                <Reveal key={`${product.name}-${i}`} delay={i * 60}>
+                  <div className="group relative overflow-hidden rounded-xl border border-navy-100 bg-navy-50 transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg">
+                    <div className="relative h-36 overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={product.image_url ?? ''}
+                        alt={name}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
+                      <span className="absolute start-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
+                        {categoryName}
+                      </span>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-barlow text-base font-semibold text-navy-900">
+                        {name}
+                      </h3>
+                      <p className="mt-1 text-xs text-navy-500">{product.spec}</p>
+                    </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-barlow text-base font-semibold text-navy-900">
-                      {product.name}
-                    </h3>
-                    <p className="mt-1 text-xs text-navy-500">{product.spec}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
 
           <Reveal>
