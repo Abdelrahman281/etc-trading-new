@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import type { RfqSubmission } from '@/lib/types';
 
@@ -121,7 +121,7 @@ export async function createProduct(formData: FormData): Promise<{ success: bool
   }
 
   revalidatePath('/admin/products');
-  revalidatePath('/products');
+  revalidateTag('catalog');
   return { success: true };
 }
 
@@ -155,7 +155,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
   }
 
   revalidatePath('/admin/products');
-  revalidatePath('/products');
+  revalidateTag('catalog');
   return { success: true };
 }
 
@@ -170,6 +170,6 @@ export async function deleteProduct(id: string): Promise<{ success: boolean; err
   }
 
   revalidatePath('/admin/products');
-  revalidatePath('/products');
+  revalidateTag('catalog');
   return { success: true };
 }

@@ -1,4 +1,6 @@
+import { unstable_cache } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import type {
   Category,
   SubCategory,
@@ -25,141 +27,205 @@ async function withRetry<T, E>(
   return result;
 }
 
+// Catalog content (categories/sub-categories/products) barely changes and is
+// world-readable, so it's cached for a week instead of hitting Supabase on
+// every page view - that was burning through the project's Disk IO budget.
+// Admin product edits call revalidateTag('catalog') to bust this immediately,
+// so the cache window is a ceiling on staleness, not a real-world delay.
+const CATALOG_REVALIDATE_SECONDS = 60 * 60 * 24 * 7;
+const CATALOG_TAG = 'catalog';
+
 // ─── Categories ──────────────────────────────────────────────────────────────
 
+const getCachedCategories = unstable_cache(
+  async (): Promise<Category[]> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from('categories')
+        .select('*')
+        .order('sort_order', { ascending: true })
+    );
+
+    if (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+
+    return data as Category[];
+  },
+  ['categories-list'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
+
 export async function getCategories(): Promise<Category[]> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase
-      .from('categories')
-      .select('*')
-      .order('sort_order', { ascending: true })
-  );
-
-  if (error) {
-    console.error('Error fetching categories:', error);
-    return [];
-  }
-
-  return data as Category[];
+  return getCachedCategories();
 }
 
+const getCachedCategoryBySlug = unstable_cache(
+  async (slug: string): Promise<Category | null> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
+    );
+
+    if (error) {
+      console.error('Error fetching category:', error);
+      return null;
+    }
+
+    return data as Category | null;
+  },
+  ['category-by-slug'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
+
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
-  );
-
-  if (error) {
-    console.error('Error fetching category:', error);
-    return null;
-  }
-
-  return data as Category | null;
+  return getCachedCategoryBySlug(slug);
 }
 
 // ─── Sub Categories ───────────────────────────────────────────────────────────
 
+const getCachedSubCategoriesByCategory = unstable_cache(
+  async (categoryId: string): Promise<SubCategory[]> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from('sub_categories')
+        .select('*')
+        .eq('category_id', categoryId)
+        .order('sort_order', { ascending: true })
+    );
+
+    if (error) {
+      console.error('Error fetching sub-categories:', error);
+      return [];
+    }
+
+    return data as SubCategory[];
+  },
+  ['sub-categories-by-category'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
+
 export async function getSubCategoriesByCategory(
   categoryId: string
 ): Promise<SubCategory[]> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase
-      .from('sub_categories')
-      .select('*')
-      .eq('category_id', categoryId)
-      .order('sort_order', { ascending: true })
-  );
-
-  if (error) {
-    console.error('Error fetching sub-categories:', error);
-    return [];
-  }
-
-  return data as SubCategory[];
+  return getCachedSubCategoriesByCategory(categoryId);
 }
 
 // ─── Products ─────────────────────────────────────────────────────────────────
 
+const getCachedProductsByCategory = unstable_cache(
+  async (categoryId: string): Promise<Product[]> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from('products')
+        .select('*')
+        .eq('category_id', categoryId)
+        .order('sort_order', { ascending: true })
+    );
+
+    if (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
+
+    return data as Product[];
+  },
+  ['products-by-category'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
+
 export async function getProductsByCategory(
   categoryId: string
 ): Promise<Product[]> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase
-      .from('products')
-      .select('*')
-      .eq('category_id', categoryId)
-      .order('sort_order', { ascending: true })
-  );
-
-  if (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
-
-  return data as Product[];
+  return getCachedProductsByCategory(categoryId);
 }
+
+const getCachedProductById = unstable_cache(
+  async (id: string): Promise<Product | null> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase.from('products').select('*').eq('id', id).maybeSingle()
+    );
+
+    if (error) {
+      console.error('Error fetching product:', error);
+      return null;
+    }
+
+    return data as Product | null;
+  },
+  ['product-by-id'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
 
 export async function getProductById(id: string): Promise<Product | null> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase.from('products').select('*').eq('id', id).maybeSingle()
-  );
-
-  if (error) {
-    console.error('Error fetching product:', error);
-    return null;
-  }
-
-  return data as Product | null;
+  return getCachedProductById(id);
 }
+
+const getCachedFeaturedProducts = unstable_cache(
+  async (): Promise<(Product & { categoryName: string; categoryNameAr: string | null })[]> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from('products')
+        .select('*, categories(name, name_ar)')
+        .eq('featured', true)
+        .order('sort_order', { ascending: true })
+    );
+
+    if (error) {
+      console.error('Error fetching featured products:', error);
+      return [];
+    }
+
+    return (
+      data as unknown as Array<
+        Product & { categories: { name: string; name_ar: string | null } | null }
+      >
+    ).map(({ categories, ...product }) => ({
+      ...product,
+      categoryName: categories?.name ?? '',
+      categoryNameAr: categories?.name_ar ?? null,
+    }));
+  },
+  ['featured-products'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
 
 export async function getFeaturedProducts(): Promise<
   (Product & { categoryName: string; categoryNameAr: string | null })[]
 > {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase
-      .from('products')
-      .select('*, categories(name, name_ar)')
-      .eq('featured', true)
-      .order('sort_order', { ascending: true })
-  );
-
-  if (error) {
-    console.error('Error fetching featured products:', error);
-    return [];
-  }
-
-  return (
-    data as unknown as Array<
-      Product & { categories: { name: string; name_ar: string | null } | null }
-    >
-  ).map(({ categories, ...product }) => ({
-    ...product,
-    categoryName: categories?.name ?? '',
-    categoryNameAr: categories?.name_ar ?? null,
-  }));
+  return getCachedFeaturedProducts();
 }
+
+const getCachedAllProductSlugs = unstable_cache(
+  async (): Promise<{ category: string; product: string }[]> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase.from('products').select('slug, categories(slug)')
+    );
+
+    if (error) {
+      console.error('Error fetching product slugs:', error);
+      return [];
+    }
+
+    return (data as unknown as Array<{ slug: string; categories: { slug: string } | null }>)
+      .filter((p) => p.categories)
+      .map((p) => ({ category: p.categories!.slug, product: p.slug }));
+  },
+  ['all-product-slugs'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
 
 export async function getAllProductSlugs(): Promise<
   { category: string; product: string }[]
 > {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase.from('products').select('slug, categories(slug)')
-  );
-
-  if (error) {
-    console.error('Error fetching product slugs:', error);
-    return [];
-  }
-
-  return (data as unknown as Array<{ slug: string; categories: { slug: string } | null }>)
-    .filter((p) => p.categories)
-    .map((p) => ({ category: p.categories!.slug, product: p.slug }));
+  return getCachedAllProductSlugs();
 }
 
 export interface ProductDetail {
@@ -183,53 +249,61 @@ export interface ProductDetail {
   featured: boolean;
 }
 
+const getCachedProductDetail = unstable_cache(
+  async (categorySlug: string, productSlug: string): Promise<ProductDetail | null> => {
+    const supabase = createPublicClient();
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from('products')
+        .select('*, categories(slug, name, name_ar), sub_categories(name, name_ar)')
+        .eq('slug', productSlug)
+        .maybeSingle()
+    );
+
+    if (error || !data) {
+      if (error) console.error('Error fetching product detail:', error);
+      return null;
+    }
+
+    const row = data as unknown as Product & {
+      categories: { slug: string; name: string; name_ar: string | null } | null;
+      sub_categories: { name: string; name_ar: string | null } | null;
+    };
+
+    if (!row.categories || row.categories.slug !== categorySlug) {
+      return null;
+    }
+
+    return {
+      id: row.id,
+      name: row.name,
+      nameAr: row.name_ar,
+      slug: row.slug,
+      category: row.categories.slug,
+      categoryName: row.categories.name,
+      categoryNameAr: row.categories.name_ar,
+      subcategory: row.sub_categories?.name ?? '',
+      subcategoryAr: row.sub_categories?.name_ar ?? null,
+      description: row.spec ?? '',
+      image: row.image_url ?? '',
+      images: row.images,
+      features: row.features,
+      specifications: row.specifications,
+      applications: row.applications,
+      availableSizes: row.available_sizes,
+      datasheet: row.datasheet_url,
+      featured: row.featured,
+    };
+  },
+  ['product-detail'],
+  { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [CATALOG_TAG] }
+);
+
 export async function getProductDetail(
   categorySlug: string,
   productSlug: string
 ): Promise<ProductDetail | null> {
-  const supabase = createClient();
-  const { data, error } = await withRetry(() =>
-    supabase
-      .from('products')
-      .select('*, categories(slug, name, name_ar), sub_categories(name, name_ar)')
-      .eq('slug', productSlug)
-      .maybeSingle()
-  );
-
-  if (error || !data) {
-    if (error) console.error('Error fetching product detail:', error);
-    return null;
-  }
-
-  const row = data as unknown as Product & {
-    categories: { slug: string; name: string; name_ar: string | null } | null;
-    sub_categories: { name: string; name_ar: string | null } | null;
-  };
-
-  if (!row.categories || row.categories.slug !== categorySlug) {
-    return null;
-  }
-
-  return {
-    id: row.id,
-    name: row.name,
-    nameAr: row.name_ar,
-    slug: row.slug,
-    category: row.categories.slug,
-    categoryName: row.categories.name,
-    categoryNameAr: row.categories.name_ar,
-    subcategory: row.sub_categories?.name ?? '',
-    subcategoryAr: row.sub_categories?.name_ar ?? null,
-    description: row.spec ?? '',
-    image: row.image_url ?? '',
-    images: row.images,
-    features: row.features,
-    specifications: row.specifications,
-    applications: row.applications,
-    availableSizes: row.available_sizes,
-    datasheet: row.datasheet_url,
-    featured: row.featured,
-  };
+  return getCachedProductDetail(categorySlug, productSlug);
 }
 
 export interface CategoryWithDetails extends Category {
@@ -258,6 +332,8 @@ export async function getCategoryWithDetails(
 }
 
 // ─── RFQ ──────────────────────────────────────────────────────────────────────
+// Admin-only reads/writes stay uncached: low traffic, and always needs the
+// latest submissions rather than a week-stale snapshot.
 
 export async function createRfqRequest(
   submission: RfqSubmission

@@ -19,7 +19,6 @@ import { DownloadCatalogSection } from '@/components/site/download-catalog-secti
 import {
   getCategoryBySlug,
   getProductDetail,
-  getAllProductSlugs,
   getProductsByCategory,
 } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
@@ -28,13 +27,11 @@ import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-  const slugs = await getAllProductSlugs();
-  const locales = ['en', 'ar'];
-  return locales.flatMap((locale) =>
-    slugs.map((s) => ({ locale, slug: s.category, product: s.product }))
-  );
-}
+// No generateStaticParams here on purpose: this route is force-dynamic, so
+// Next renders any product at request time regardless. Pre-listing params
+// would call getAllProductSlugs() during the build step, and Vercel's build
+// environment has a confirmed history of being unable to reach Supabase - a
+// failed call there would cache an empty result for a week (see lib/queries.ts).
 
 export async function generateMetadata({
   params,

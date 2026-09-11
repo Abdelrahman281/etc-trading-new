@@ -24,10 +24,11 @@ import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((c) => ({ slug: c.slug }));
-}
+// No generateStaticParams here on purpose: this route is force-dynamic, so
+// Next renders any slug at request time regardless. Pre-listing params would
+// call getCategories() during the build step, and Vercel's build environment
+// has a confirmed history of being unable to reach Supabase - a failed call
+// there would cache an empty result for a week (see lib/queries.ts).
 
 export async function generateMetadata({
   params,
