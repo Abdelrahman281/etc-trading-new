@@ -20,6 +20,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} dir={dir} className={`${inter.variable} ${barlow.variable}`}>
       <body className="font-sans antialiased">
+        {/* Reveal (components/site/reveal.tsx) fades content in via client JS;
+            without it, this keeps that content visible instead of stuck at
+            opacity-0 forever. */}
+        <noscript>
+          <style>{'.reveal-root { opacity: 1 !important; transform: none !important; }'}</style>
+        </noscript>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

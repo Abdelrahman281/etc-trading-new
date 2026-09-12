@@ -5,7 +5,6 @@ import {
   FileText,
   Package,
   Layers,
-  ArrowRight,
   Clock,
   CheckCircle2,
   AlertCircle,
@@ -14,6 +13,7 @@ import { getRfqRequests, getCategories } from '@/lib/queries';
 import { createClient } from '@/lib/supabase/server';
 import { withTimeout } from '@/lib/with-timeout';
 import { RetryButton } from '@/components/admin/retry-button';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -127,7 +127,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
                 <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${stat.accent} text-white`}>
                   <Icon className="h-5 w-5" />
                 </div>
-                <ArrowRight className="h-4 w-4 text-navy-300 transition-transform group-hover:translate-x-1 group-hover:text-orange-500" />
+                <DirectionalArrow direction="forward" className="h-4 w-4 text-navy-300 transition-transform group-hover:translate-x-1 group-hover:text-orange-500" />
               </div>
               <p className="mt-4 font-barlow text-3xl font-bold text-navy-900">
                 {stat.value}
@@ -149,7 +149,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
             className="inline-flex items-center gap-1 text-sm font-medium text-orange-600 hover:text-orange-700"
           >
             {t('viewAll')}
-            <ArrowRight className="h-3.5 w-3.5" />
+            <DirectionalArrow direction="forward" className="h-3.5 w-3.5" />
           </Link>
         </div>
 
@@ -188,7 +188,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
                       })}
                     </p>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-navy-300" />
+                  <DirectionalArrow direction="forward" className="h-4 w-4 shrink-0 text-navy-300" />
                 </Link>
               );
             })}

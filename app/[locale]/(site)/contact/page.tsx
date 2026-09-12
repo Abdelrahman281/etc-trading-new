@@ -16,6 +16,7 @@ import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
 import { companyInfo } from '@/lib/data';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
+import { telHref } from '@/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
@@ -54,7 +55,7 @@ export default async function ContactPage({ params }: { params: { locale: string
       icon: Phone,
       title: t('callUs'),
       lines: [companyInfo.phone],
-      action: { label: t('callNow'), href: `tel:${companyInfo.phone}` },
+      action: { label: t('callNow'), href: telHref(companyInfo.phone) },
     },
     {
       icon: MessageCircle,
@@ -175,7 +176,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                     <div className="flex items-start justify-between gap-4">
                       <dt className="text-navy-500">{t('phone')}</dt>
                       <dd className="text-end">
-                        <a href={`tel:${companyInfo.phone}`} className="font-medium text-orange-600 hover:text-orange-700">
+                        <a href={telHref(companyInfo.phone)} className="font-medium text-orange-600 hover:text-orange-700">
                           {companyInfo.phone}
                         </a>
                       </dd>

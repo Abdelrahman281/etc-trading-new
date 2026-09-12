@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   Trash2,
@@ -20,6 +21,7 @@ export default function CartPage() {
   const locale = useLocale();
   const t = useTranslations('Cart');
   const { items, removeItem, updateQuantity, clearCart } = useCart();
+  const [confirmingClear, setConfirmingClear] = useState(false);
 
   const totalQuantity = items.reduce((sum, i) => sum + i.quantity, 0);
   const categoryCount = new Set(items.map((i) => i.categorySlug)).size;
@@ -73,13 +75,33 @@ export default function CartPage() {
                       item: items.length === 1 ? t('itemSingular') : t('itemPlural'),
                     })}
                   </h2>
-                  <button
-                    onClick={clearCart}
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-red-600"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                    {t('clearAll')}
-                  </button>
+                  {confirmingClear ? (
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => {
+                          clearCart();
+                          setConfirmingClear(false);
+                        }}
+                        className="text-sm font-semibold text-red-600 hover:text-red-700"
+                      >
+                        {t('confirmClear')}
+                      </button>
+                      <button
+                        onClick={() => setConfirmingClear(false)}
+                        className="text-sm font-medium text-navy-500 hover:text-navy-700"
+                      >
+                        {t('cancelClear')}
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmingClear(true)}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-red-600"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      {t('clearAll')}
+                    </button>
+                  )}
                 </div>
                 <div className="space-y-3">
                   {items.map((item, i) => (

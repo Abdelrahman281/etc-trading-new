@@ -519,7 +519,11 @@ export interface Project {
   name: string;
   client: string;
   location: string;
-  sector: string;
+  // Client/project names and locations are proper nouns, kept as-is in both
+  // locales. The sector label is generic descriptive text, so it's a
+  // translation key (see messages/*.json Projects.sectors) instead of a
+  // hardcoded English string.
+  sectorKey: string;
   image: string;
 }
 
@@ -528,7 +532,7 @@ export const featuredProjects: Project[] = [
     name: 'Benban Solar Power Station',
     client: 'Global Energy · TSK · Voltalia',
     location: 'Benban, Aswan Governorate',
-    sector: 'Renewable Energy',
+    sectorKey: 'renewableEnergy',
     image:
       'https://images.pexels.com/photos/9229392/pexels-photo-9229392.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -536,7 +540,7 @@ export const featuredProjects: Project[] = [
     name: 'Sphinx International Airport',
     client: 'Kortec — Hassan Allam Technology',
     location: 'Greater Cairo',
-    sector: 'Aviation Infrastructure',
+    sectorKey: 'aviationInfrastructure',
     image:
       'https://images.pexels.com/photos/19190599/pexels-photo-19190599.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -544,7 +548,7 @@ export const featuredProjects: Project[] = [
     name: 'New Administrative Capital — Power Station & Capital Towers',
     client: 'SIMCO · Hassan Allam Construction',
     location: 'New Administrative Capital, Egypt',
-    sector: 'Urban Development',
+    sectorKey: 'urbanDevelopment',
     image:
       'https://images.pexels.com/photos/8373204/pexels-photo-8373204.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -552,7 +556,7 @@ export const featuredProjects: Project[] = [
     name: 'Bashteel Train Station',
     client: 'Kortec · Hassan Allam Construction',
     location: 'Giza Governorate',
-    sector: 'Transport Infrastructure',
+    sectorKey: 'transportInfrastructure',
     image:
       'https://images.pexels.com/photos/12896225/pexels-photo-12896225.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -560,7 +564,7 @@ export const featuredProjects: Project[] = [
     name: 'Monorail Project',
     client: 'SIMCO — Specialized Contracting Company',
     location: 'New Administrative Capital, Egypt',
-    sector: 'Mass Transit',
+    sectorKey: 'massTransit',
     image:
       'https://images.pexels.com/photos/11233573/pexels-photo-11233573.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -568,7 +572,7 @@ export const featuredProjects: Project[] = [
     name: 'Towers of Alamein',
     client: 'Hassan Allam Construction',
     location: 'Alamein City',
-    sector: 'Mixed-Use High-Rise',
+    sectorKey: 'mixedUseHighRise',
     image:
       'https://images.pexels.com/photos/5504725/pexels-photo-5504725.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
   },
@@ -577,48 +581,20 @@ export const featuredProjects: Project[] = [
 // ─── Industries We Serve ──────────────────────────────────────────────────────
 
 export interface Industry {
-  name: string;
+  id: string;
   icon: LucideIcon;
-  description: string;
 }
 
+// name/description are translation keys (messages/*.json Industries.items),
+// not hardcoded strings - this section previously stayed English-only on
+// Arabic pages.
 export const industries: Industry[] = [
-  {
-    name: 'Renewable Energy',
-    icon: Sun,
-    description:
-      'Supplying fasteners, cables, and insulation to solar power stations and renewable energy projects across Egypt.',
-  },
-  {
-    name: 'Aviation & Airports',
-    icon: Plane,
-    description:
-      'Electromechanical supply for airport terminals and aviation infrastructure developments.',
-  },
-  {
-    name: 'Urban Development',
-    icon: Building,
-    description:
-      'Comprehensive supply for new city developments, government buildings, and ministry districts.',
-  },
-  {
-    name: 'Transport Infrastructure',
-    icon: Train,
-    description:
-      'Fasteners, pipes, and electrical products for train stations, monorail systems, and bridges.',
-  },
-  {
-    name: 'Industrial & Manufacturing',
-    icon: Factory,
-    description:
-      'Supplying factories and industrial facilities with insulation, piping, and electrical systems.',
-  },
-  {
-    name: 'Healthcare Facilities',
-    icon: Hospital,
-    description:
-      'Specialized electromechanical supply for hospitals and healthcare construction projects.',
-  },
+  { id: 'renewableEnergy', icon: Sun },
+  { id: 'aviation', icon: Plane },
+  { id: 'urbanDevelopment', icon: Building },
+  { id: 'transportInfrastructure', icon: Train },
+  { id: 'industrialManufacturing', icon: Factory },
+  { id: 'healthcare', icon: Hospital },
 ];
 
 // ─── All Projects ─────────────────────────────────────────────────────────────

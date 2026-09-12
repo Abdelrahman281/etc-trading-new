@@ -29,6 +29,7 @@ import { companyInfo } from '@/lib/data';
 import { localized } from '@/lib/localized';
 import type { Category } from '@/lib/types';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
+import { telHref } from '@/lib/utils';
 
 interface FormState {
   company: string;
@@ -344,6 +345,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                   <Input
                     id="phone"
                     type="tel"
+                    dir="ltr"
                     value={form.phone}
                     onChange={(e) => update('phone', e.target.value)}
                     placeholder={t('phonePlaceholder')}
@@ -363,6 +365,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                   <Input
                     id="email"
                     type="email"
+                    dir="ltr"
                     value={form.email}
                     onChange={(e) => update('email', e.target.value)}
                     placeholder={t('emailPlaceholder')}
@@ -495,7 +498,7 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                   {t('preferToTalkDesc')}
                 </p>
                 <div className="mt-4 space-y-2 text-sm">
-                  <a href={`tel:${companyInfo.phone}`} className="block text-orange-400 hover:text-orange-300">
+                  <a href={telHref(companyInfo.phone)} className="block text-orange-400 hover:text-orange-300">
                     {companyInfo.phone}
                   </a>
                   <a href={`mailto:${companyInfo.email}`} className="block text-orange-400 hover:text-orange-300">

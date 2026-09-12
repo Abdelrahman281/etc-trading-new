@@ -41,7 +41,7 @@ export function FeaturedProjectsSection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent" />
                   <span className="absolute start-3 top-3 rounded-md bg-navy-900/80 px-2.5 py-1 text-xs font-semibold text-orange-400 backdrop-blur-sm">
-                    {project.sector}
+                    {t(`sectors.${project.sectorKey}`)}
                   </span>
                 </div>
                 <div className="p-5">

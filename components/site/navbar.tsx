@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, ShoppingCart } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn, telHref } from '@/lib/utils';
 import { useCart } from '@/lib/cart-context';
 import { useTranslations, useLocale } from 'next-intl';
 import { LanguageSwitcher } from '@/components/site/language-switcher';
 import { companyInfo } from '@/lib/data';
+import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -118,7 +119,7 @@ export function Navbar() {
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ms-2 h-4 w-4" />
+              <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
@@ -178,11 +179,11 @@ export function Navbar() {
           >
             <Link href={`/${locale}/quote`}>
               {t('quote')}
-              <ArrowRight className="ms-2 h-4 w-4" />
+              <DirectionalArrow direction="forward" className="ms-2 h-4 w-4" />
             </Link>
           </Button>
           <a
-            href={`tel:${companyInfo.phone}`}
+            href={telHref(companyInfo.phone)}
             className="mt-2 px-4 py-2 text-center text-sm text-navy-200"
           >
             {companyInfo.phone}

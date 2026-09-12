@@ -139,7 +139,7 @@ export default async function AboutPage({ params }: { params: { locale: string }
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://images.pexels.com/photos/18920790/pexels-photo-18920790.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                  alt="Industrial facility"
+                  alt=""
                   className="h-[460px] w-full object-cover"
                 />
               </div>

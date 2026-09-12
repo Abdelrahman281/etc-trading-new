@@ -27,6 +27,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       <Languages className="h-4 w-4 text-navy-200" />
       <button
         onClick={() => switchTo('en')}
+        lang="en"
+        aria-pressed={locale === 'en'}
         className={cn(
           'px-1.5 py-0.5 text-xs font-medium transition-colors',
           locale === 'en' ? 'text-orange-400' : 'text-navy-200 hover:text-white'
@@ -37,6 +39,8 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       <span className="text-navy-600">|</span>
       <button
         onClick={() => switchTo('ar')}
+        lang="ar"
+        aria-pressed={locale === 'ar'}
         className={cn(
           'px-1.5 py-0.5 text-xs font-medium transition-colors',
           locale === 'ar' ? 'text-orange-400' : 'text-navy-200 hover:text-white'

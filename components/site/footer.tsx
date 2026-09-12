@@ -14,6 +14,7 @@ import { companyInfo } from '@/lib/data';
 import { getCategories } from '@/lib/queries';
 import { localized } from '@/lib/localized';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
+import { telHref } from '@/lib/utils';
 
 export async function Footer() {
   const t = await getTranslations('Footer');
@@ -133,7 +134,7 @@ export async function Footer() {
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-orange-400" />
-                <a href={`tel:${companyInfo.phone}`} className="text-navy-300 hover:text-orange-400">
+                <a href={telHref(companyInfo.phone)} className="text-navy-300 hover:text-orange-400">
                   {companyInfo.phone}
                 </a>
               </li>

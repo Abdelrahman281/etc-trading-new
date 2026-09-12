@@ -29,16 +29,16 @@ export function IndustriesSection() {
           {industries.map((industry, i) => {
             const Icon = industry.icon;
             return (
-              <Reveal key={industry.name} delay={i * 70}>
+              <Reveal key={industry.id} delay={i * 70}>
                 <div className="group h-full rounded-xl border border-navy-700 bg-navy-900/50 p-6 backdrop-blur-sm transition-all duration-500 hover:border-orange-500/50 hover:bg-navy-900">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-500/15 text-orange-400 transition-colors group-hover:bg-orange-500 group-hover:text-white">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-5 font-barlow text-lg font-semibold text-white">
-                    {industry.name}
+                    {t(`items.${industry.id}.name`)}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-navy-300">
-                    {industry.description}
+                    {t(`items.${industry.id}.description`)}
                   </p>
                 </div>
               </Reveal>

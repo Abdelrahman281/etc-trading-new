@@ -47,7 +47,7 @@ export function AddToQuoteButton({
       size={size}
       disabled={inCart}
       className={cn(
-        'shrink-0',
+        'shrink-0 gap-1.5',
         inCart
           ? 'border-green-500 text-green-600 hover:bg-green-50 hover:text-green-600'
           : 'border-orange-300 text-orange-600 hover:bg-orange-50 hover:text-orange-700',

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
-import { Package, Tag, Download, ChevronRight } from 'lucide-react';
+import { Package, Tag, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/site/page-header';
 import { Reveal } from '@/components/site/reveal';
@@ -132,7 +132,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                       >
                         <Link href={`/${locale}/products/${cat.slug}`}>
                           {t('viewPage')}
-                          <ChevronRight className="ms-1 h-4 w-4" />
+                          <DirectionalArrow variant="chevron" direction="forward" className="ms-1 h-4 w-4" />
                         </Link>
                       </Button>
                     </div>
@@ -199,7 +199,7 @@ export default async function ProductsPage({ params }: { params: { locale: strin
                     >
                       <Link href={`/${locale}/products/${cat.slug}`}>
                         {t('viewPageShort', { name: catShortName })}
-                        <ChevronRight className="ms-1 h-4 w-4" />
+                        <DirectionalArrow variant="chevron" direction="forward" className="ms-1 h-4 w-4" />
                       </Link>
                     </Button>
                   </div>

@@ -192,12 +192,18 @@ export async function getProductById(id: string): Promise<Product | null> {
 }
 
 const getCachedFeaturedProducts = unstable_cache(
-  async (): Promise<(Product & { categoryName: string; categoryNameAr: string | null })[]> => {
+  async (): Promise<
+    (Product & {
+      categoryName: string;
+      categoryNameAr: string | null;
+      categorySlug: string;
+    })[]
+  > => {
     const supabase = createPublicClient();
     const { data, error } = await withRetry(() =>
       supabase
         .from('products')
-        .select('*, categories(name, name_ar)')
+        .select('*, categories(name, name_ar, slug)')
         .eq('featured', true)
         .order('sort_order', { ascending: true })
     );
@@ -208,12 +214,15 @@ const getCachedFeaturedProducts = unstable_cache(
 
     return (
       data as unknown as Array<
-        Product & { categories: { name: string; name_ar: string | null } | null }
+        Product & {
+          categories: { name: string; name_ar: string | null; slug: string } | null;
+        }
       >
     ).map(({ categories, ...product }) => ({
       ...product,
       categoryName: categories?.name ?? '',
       categoryNameAr: categories?.name_ar ?? null,
+      categorySlug: categories?.slug ?? '',
     }));
   },
   ['featured-products'],
@@ -221,7 +230,11 @@ const getCachedFeaturedProducts = unstable_cache(
 );
 
 export async function getFeaturedProducts(): Promise<
-  (Product & { categoryName: string; categoryNameAr: string | null })[]
+  (Product & {
+    categoryName: string;
+    categoryNameAr: string | null;
+    categorySlug: string;
+  })[]
 > {
   try {
     return await getCachedFeaturedProducts();

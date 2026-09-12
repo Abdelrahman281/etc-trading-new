@@ -19,6 +19,7 @@ import { RetryButton } from '@/components/admin/retry-button';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
+import { telHref } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: { locale: string; id: string } }): Promise<Metadata> {
   const t = await getTranslations('Admin');
@@ -60,7 +61,7 @@ export default async function AdminRfqDetailPage({
   const infoItems = [
     { icon: Building2, label: t('companyCol'), value: rfq.company },
     { icon: User, label: t('contactCol'), value: rfq.contact_person },
-    { icon: Phone, label: t('phone'), value: rfq.phone, href: `tel:${rfq.phone}` },
+    { icon: Phone, label: t('phone'), value: rfq.phone, href: telHref(rfq.phone) },
     { icon: Mail, label: t('email'), value: rfq.email, href: `mailto:${rfq.email}` },
     { icon: Package, label: t('categoryCol'), value: rfq.category },
     {

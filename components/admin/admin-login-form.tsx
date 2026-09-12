@@ -21,7 +21,7 @@ export function AdminLoginForm({ locale }: { locale: string }) {
     const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (signInError) {
-      setError(signInError.message || t('login.invalidCredentials'));
+      setError(t('login.invalidCredentials'));
       setIsSubmitting(false);
       return;
     }
@@ -48,6 +48,7 @@ export function AdminLoginForm({ locale }: { locale: string }) {
         <input
           id="admin-email"
           type="email"
+          dir="ltr"
           autoComplete="email"
           required
           value={email}
@@ -62,6 +63,7 @@ export function AdminLoginForm({ locale }: { locale: string }) {
         <input
           id="admin-password"
           type="password"
+          dir="ltr"
           autoComplete="current-password"
           required
           value={password}

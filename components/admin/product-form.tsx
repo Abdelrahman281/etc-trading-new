@@ -65,7 +65,7 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
         router.push(`/${locale}/admin/products`);
         router.refresh();
       } else {
-        setError(result.error ?? t('error'));
+        setError(t('error'));
       }
     });
   };

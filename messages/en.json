@@ -64,12 +64,46 @@
     "eyebrow": "Reference List",
     "title": "Featured Projects",
     "subtitle": "ETC has supplied electromechanical materials to landmark projects across Egypt — from solar power stations to national infrastructure.",
-    "viewAll": "View All Projects"
+    "viewAll": "View All Projects",
+    "sectors": {
+      "renewableEnergy": "Renewable Energy",
+      "aviationInfrastructure": "Aviation Infrastructure",
+      "urbanDevelopment": "Urban Development",
+      "transportInfrastructure": "Transport Infrastructure",
+      "massTransit": "Mass Transit",
+      "mixedUseHighRise": "Mixed-Use High-Rise"
+    }
   },
   "Industries": {
     "eyebrow": "Our Sectors",
     "title": "Industries We Serve",
-    "subtitle": "ETC supplies electromechanical materials across a wide range of industries — from renewable energy to healthcare and transport."
+    "subtitle": "ETC supplies electromechanical materials across a wide range of industries — from renewable energy to healthcare and transport.",
+    "items": {
+      "renewableEnergy": {
+        "name": "Renewable Energy",
+        "description": "Supplying fasteners, cables, and insulation to solar power stations and renewable energy projects across Egypt."
+      },
+      "aviation": {
+        "name": "Aviation & Airports",
+        "description": "Electromechanical supply for airport terminals and aviation infrastructure developments."
+      },
+      "urbanDevelopment": {
+        "name": "Urban Development",
+        "description": "Comprehensive supply for new city developments, government buildings, and ministry districts."
+      },
+      "transportInfrastructure": {
+        "name": "Transport Infrastructure",
+        "description": "Fasteners, pipes, and electrical products for train stations, monorail systems, and bridges."
+      },
+      "industrialManufacturing": {
+        "name": "Industrial & Manufacturing",
+        "description": "Supplying factories and industrial facilities with insulation, piping, and electrical systems."
+      },
+      "healthcare": {
+        "name": "Healthcare Facilities",
+        "description": "Specialized electromechanical supply for hospitals and healthcare construction projects."
+      }
+    }
   },
   "About": {
     "eyebrow": "About Us",
@@ -175,7 +209,6 @@
     "relatedCategories": "Related Product Categories",
     "ctaTitle": "Ready to Request a Quote?",
     "ctaSubtitle": "Add items to your quote cart and submit your request — our team will respond within 24 hours.",
-    "viewQuoteCart": "View Quote Cart",
     "allProducts": "All Products",
     "productNotFound": "Product Not Found | ETC",
     "productDetailEyebrow": "Product Details",
@@ -221,7 +254,9 @@
     "categories": "Categories",
     "summaryNote": "Submit your cart with your contact details and our team will prepare a competitive quotation within 24 hours.",
     "proceedQuote": "Proceed to Request Quote",
-    "addMoreProducts": "Add More Products"
+    "addMoreProducts": "Add More Products",
+    "confirmClear": "Yes, clear cart",
+    "cancelClear": "Cancel"
   },
   "Quote": {
     "eyebrow": "Request a Quote",
@@ -435,5 +470,10 @@
     "adminRfq": "RFQ Requests | ETC Admin",
     "categoryTitle": "{name} | ETC Electromechanical Supply",
     "categoryOgTitle": "{name} | ETC"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "message": "Sorry, we couldn't find the page you're looking for.",
+    "goHome": "Go to Homepage"
   }
 }

@@ -97,7 +97,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={heroImage}
-          alt="Industrial facility"
+          alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40" />
@@ -195,7 +195,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://images.pexels.com/photos/8961133/pexels-photo-8961133.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                    alt="Engineering team at work"
+                    alt=""
                     className="h-[420px] w-full object-cover"
                   />
                 </div>
@@ -315,7 +315,10 @@ export default async function Home({ params }: { params: { locale: string } }) {
               );
               return (
                 <Reveal key={`${product.name}-${i}`} delay={i * 60}>
-                  <div className="group relative overflow-hidden rounded-xl border border-navy-100 bg-navy-50 transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg">
+                  <Link
+                    href={`/${locale}/products/${product.categorySlug}/${product.slug}`}
+                    className="group relative block overflow-hidden rounded-xl border border-navy-100 bg-navy-50 transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg"
+                  >
                     <div className="relative h-36 overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -334,7 +337,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                       </h3>
                       <p className="mt-1 text-xs text-navy-500">{product.spec}</p>
                     </div>
-                  </div>
+                  </Link>
                 </Reveal>
               );
             })}

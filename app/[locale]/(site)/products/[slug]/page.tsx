@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import {
-  ChevronRight,
   Tag,
   Package,
   CheckCircle2,
@@ -395,7 +394,7 @@ export default async function CategoryPage({
                     <span className="text-sm font-semibold text-navy-800">
                       {localized(cat.short_name, cat.short_name_ar, locale)}
                     </span>
-                    <ChevronRight className="ms-auto h-4 w-4 text-navy-400 transition-transform group-hover:translate-x-1" />
+                    <DirectionalArrow variant="chevron" direction="forward" className="ms-auto h-4 w-4 text-navy-400 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Reveal>
               );
