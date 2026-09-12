@@ -37,6 +37,11 @@ const CATALOG_TAG = 'catalog';
 
 // ─── Categories ──────────────────────────────────────────────────────────────
 
+// Cached functions throw on a fetch error instead of returning an empty
+// fallback: unstable_cache never persists a thrown result, so a transient
+// failure (a Supabase timeout, say) is never memoized as if it were real
+// data for the full week. Each exported wrapper below catches that throw
+// and returns the safe empty fallback for just that one request.
 const getCachedCategories = unstable_cache(
   async (): Promise<Category[]> => {
     const supabase = createPublicClient();
@@ -48,8 +53,7 @@ const getCachedCategories = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching categories:', error);
-      return [];
+      throw new Error(`Error fetching categories: ${error.message}`);
     }
 
     return data as Category[];
@@ -59,7 +63,12 @@ const getCachedCategories = unstable_cache(
 );
 
 export async function getCategories(): Promise<Category[]> {
-  return getCachedCategories();
+  try {
+    return await getCachedCategories();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 const getCachedCategoryBySlug = unstable_cache(
@@ -70,8 +79,7 @@ const getCachedCategoryBySlug = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching category:', error);
-      return null;
+      throw new Error(`Error fetching category: ${error.message}`);
     }
 
     return data as Category | null;
@@ -81,7 +89,12 @@ const getCachedCategoryBySlug = unstable_cache(
 );
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  return getCachedCategoryBySlug(slug);
+  try {
+    return await getCachedCategoryBySlug(slug);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 // ─── Sub Categories ───────────────────────────────────────────────────────────
@@ -98,8 +111,7 @@ const getCachedSubCategoriesByCategory = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching sub-categories:', error);
-      return [];
+      throw new Error(`Error fetching sub-categories: ${error.message}`);
     }
 
     return data as SubCategory[];
@@ -111,7 +123,12 @@ const getCachedSubCategoriesByCategory = unstable_cache(
 export async function getSubCategoriesByCategory(
   categoryId: string
 ): Promise<SubCategory[]> {
-  return getCachedSubCategoriesByCategory(categoryId);
+  try {
+    return await getCachedSubCategoriesByCategory(categoryId);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 // ─── Products ─────────────────────────────────────────────────────────────────
@@ -128,8 +145,7 @@ const getCachedProductsByCategory = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching products:', error);
-      return [];
+      throw new Error(`Error fetching products: ${error.message}`);
     }
 
     return data as Product[];
@@ -141,7 +157,12 @@ const getCachedProductsByCategory = unstable_cache(
 export async function getProductsByCategory(
   categoryId: string
 ): Promise<Product[]> {
-  return getCachedProductsByCategory(categoryId);
+  try {
+    return await getCachedProductsByCategory(categoryId);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 const getCachedProductById = unstable_cache(
@@ -152,8 +173,7 @@ const getCachedProductById = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching product:', error);
-      return null;
+      throw new Error(`Error fetching product: ${error.message}`);
     }
 
     return data as Product | null;
@@ -163,7 +183,12 @@ const getCachedProductById = unstable_cache(
 );
 
 export async function getProductById(id: string): Promise<Product | null> {
-  return getCachedProductById(id);
+  try {
+    return await getCachedProductById(id);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 const getCachedFeaturedProducts = unstable_cache(
@@ -178,8 +203,7 @@ const getCachedFeaturedProducts = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching featured products:', error);
-      return [];
+      throw new Error(`Error fetching featured products: ${error.message}`);
     }
 
     return (
@@ -199,7 +223,12 @@ const getCachedFeaturedProducts = unstable_cache(
 export async function getFeaturedProducts(): Promise<
   (Product & { categoryName: string; categoryNameAr: string | null })[]
 > {
-  return getCachedFeaturedProducts();
+  try {
+    return await getCachedFeaturedProducts();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 const getCachedAllProductSlugs = unstable_cache(
@@ -210,8 +239,7 @@ const getCachedAllProductSlugs = unstable_cache(
     );
 
     if (error) {
-      console.error('Error fetching product slugs:', error);
-      return [];
+      throw new Error(`Error fetching product slugs: ${error.message}`);
     }
 
     return (data as unknown as Array<{ slug: string; categories: { slug: string } | null }>)
@@ -225,7 +253,12 @@ const getCachedAllProductSlugs = unstable_cache(
 export async function getAllProductSlugs(): Promise<
   { category: string; product: string }[]
 > {
-  return getCachedAllProductSlugs();
+  try {
+    return await getCachedAllProductSlugs();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 export interface ProductDetail {
@@ -260,8 +293,10 @@ const getCachedProductDetail = unstable_cache(
         .maybeSingle()
     );
 
-    if (error || !data) {
-      if (error) console.error('Error fetching product detail:', error);
+    if (error) {
+      throw new Error(`Error fetching product detail: ${error.message}`);
+    }
+    if (!data) {
       return null;
     }
 
@@ -303,7 +338,12 @@ export async function getProductDetail(
   categorySlug: string,
   productSlug: string
 ): Promise<ProductDetail | null> {
-  return getCachedProductDetail(categorySlug, productSlug);
+  try {
+    return await getCachedProductDetail(categorySlug, productSlug);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 export interface CategoryWithDetails extends Category {
