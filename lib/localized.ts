@@ -8,3 +8,13 @@ export function localized(
 ): string {
   return locale === 'ar' && ar ? ar : en;
 }
+
+// Same idea for array-shaped content (feature/application bullet lists,
+// specification label/value pairs).
+export function localizedList<T>(
+  en: T[],
+  ar: T[] | null | undefined,
+  locale: string
+): T[] {
+  return locale === 'ar' && ar && ar.length > 0 ? ar : en;
+}

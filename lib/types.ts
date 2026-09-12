@@ -11,8 +11,11 @@ export interface Category {
   image_url: string;
   brands: string[];
   features: string[];
+  features_ar: string[] | null;
   specifications: TechSpec[];
+  specifications_ar: TechSpec[] | null;
   applications: string[];
+  applications_ar: string[] | null;
   sort_order: number;
   created_at: string;
   updated_at: string;

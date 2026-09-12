@@ -19,7 +19,7 @@ import { AddToQuoteButton } from '@/components/site/add-to-quote-button';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
 import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
-import { localized } from '@/lib/localized';
+import { localized, localizedList } from '@/lib/localized';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
 
 export const dynamic = 'force-dynamic';
@@ -79,6 +79,9 @@ export default async function CategoryPage({
   const categoryName = localized(category.name, category.name_ar, locale);
   const categoryDescription = localized(category.description, category.description_ar, locale);
   const categoryShortName = localized(category.short_name, category.short_name_ar, locale);
+  const categoryFeatures = localizedList(category.features, category.features_ar, locale);
+  const categorySpecifications = localizedList(category.specifications, category.specifications_ar, locale);
+  const categoryApplications = localizedList(category.applications, category.applications_ar, locale);
 
   return (
     <>
@@ -160,7 +163,7 @@ export default async function CategoryPage({
       </section>
 
       {/* Features */}
-      {category.features && category.features.length > 0 && (
+      {categoryFeatures && categoryFeatures.length > 0 && (
         <section className="bg-navy-50 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
@@ -177,7 +180,7 @@ export default async function CategoryPage({
               </div>
             </Reveal>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
-              {category.features.map((feature, i) => (
+              {categoryFeatures.map((feature, i) => (
                 <Reveal key={i} delay={i * 70}>
                   <div className="flex items-start gap-4 rounded-xl border border-navy-100 bg-white p-6 shadow-sm">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-500/10 text-orange-600">
@@ -193,7 +196,7 @@ export default async function CategoryPage({
       )}
 
       {/* Technical Specifications */}
-      {category.specifications && category.specifications.length > 0 && (
+      {categorySpecifications && categorySpecifications.length > 0 && (
         <section className="bg-white py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
@@ -210,7 +213,7 @@ export default async function CategoryPage({
               <div className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-navy-100 shadow-sm">
                 <table className="w-full text-start">
                   <tbody className="divide-y divide-navy-100">
-                    {category.specifications.map((spec, i) => (
+                    {categorySpecifications.map((spec, i) => (
                       <tr
                         key={spec.label}
                         className={i % 2 === 0 ? 'bg-navy-50' : 'bg-white'}
@@ -232,7 +235,7 @@ export default async function CategoryPage({
       )}
 
       {/* Applications */}
-      {category.applications && category.applications.length > 0 && (
+      {categoryApplications && categoryApplications.length > 0 && (
         <section className="bg-navy-50 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal>
@@ -249,7 +252,7 @@ export default async function CategoryPage({
               </div>
             </Reveal>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {category.applications.map((app, i) => (
+              {categoryApplications.map((app, i) => (
                 <Reveal key={i} delay={i * 70}>
                   <div className="group h-full rounded-xl border border-navy-100 bg-white p-6 text-center shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md">
                     <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-navy-900 text-orange-400 transition-colors group-hover:bg-orange-500 group-hover:text-white">
