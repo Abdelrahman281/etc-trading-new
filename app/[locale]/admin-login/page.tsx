@@ -1,7 +1,12 @@
+import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AdminLoginForm } from '@/components/admin/admin-login-form';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLoginPage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);

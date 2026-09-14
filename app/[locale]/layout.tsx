@@ -4,6 +4,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import { notFound } from 'next/navigation';
 import { RtlProvider } from '@/components/site/rtl-provider';
 import { routing } from '@/i18n/routing';
+import { SITE_URL } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
@@ -13,12 +14,19 @@ export async function generateMetadata({
   const t = await getTranslations({ locale: params.locale, namespace: 'Metadata' });
   const isArabic = params.locale === 'ar';
   return {
-    metadataBase: new URL('https://etc-trading.com.eg'),
+    metadataBase: new URL(SITE_URL),
     title: { default: t('titleDefault'), template: t('titleTemplate') },
     description: t('description'),
     keywords: t('keywords').split(', '),
     authors: [{ name: t('author') }],
     creator: t('creator'),
+    alternates: {
+      languages: {
+        en: '/en',
+        ar: '/ar',
+        'x-default': '/en',
+      },
+    },
     openGraph: {
       title: t('ogTitle'),
       description: t('ogDescription'),
