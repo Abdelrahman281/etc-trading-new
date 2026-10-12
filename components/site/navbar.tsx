@@ -82,7 +82,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'relative rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                    'relative rounded-md px-4 py-2 text-base font-medium transition-colors',
                     active
                       ? 'text-orange-400'
                       : 'text-navy-100 hover:text-white'
@@ -149,7 +149,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'rounded-md px-4 py-3 text-sm font-medium transition-colors',
+                  'rounded-md px-4 py-3 text-base font-medium transition-colors',
                   active
                     ? 'bg-navy-800 text-orange-400'
                     : 'text-navy-100 hover:bg-navy-800 hover:text-white'
