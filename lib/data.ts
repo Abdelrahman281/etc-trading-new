@@ -19,8 +19,10 @@ import {
 
 export const companyInfo = {
   name: 'EL-Ekhlas — ETC for Trading and Engineering Company',
+  nameAr: 'الإخلاص — ETC للتجارة والهندسة',
   shortName: 'ETC',
   longName: 'EL-Ekhlas — ETC for Trading and Engineering Company',
+  longNameAr: 'الإخلاص — ETC للتجارة والهندسة',
   tagline: 'Supplying Electromechanical Works Since 2016',
   phone: '+20 122 726 6240',
   whatsapp: '201227266240',

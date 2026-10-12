@@ -128,7 +128,7 @@ export default async function ContactPage({ params }: { params: { locale: string
                     {t('mapsPlaceholder')}
                   </h3>
                   <p className="mt-2 max-w-sm text-sm text-navy-500">
-                    {companyInfo.name}
+                    {locale === 'ar' ? companyInfo.nameAr : companyInfo.name}
                   </p>
                   <a
                     href="https://maps.google.com"
