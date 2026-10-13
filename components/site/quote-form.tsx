@@ -498,10 +498,10 @@ export function QuoteForm({ categories }: { categories: Category[] }) {
                   {t('preferToTalkDesc')}
                 </p>
                 <div className="mt-4 space-y-2 text-sm">
-                  <a href={telHref(companyInfo.phone)} className="block text-orange-400 hover:text-orange-300">
+                  <a href={telHref(companyInfo.phone)} dir="ltr" className="block text-orange-400 hover:text-orange-300">
                     {companyInfo.phone}
                   </a>
-                  <a href={`mailto:${companyInfo.email}`} className="block text-orange-400 hover:text-orange-300">
+                  <a href={`mailto:${companyInfo.email}`} dir="ltr" className="block text-orange-400 hover:text-orange-300">
                     {companyInfo.email}
                   </a>
                 </div>

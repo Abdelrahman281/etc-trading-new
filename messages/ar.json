@@ -326,7 +326,7 @@
     "productCategories": "فئات المنتجات",
     "quickLinks": "روابط سريعة",
     "contactInfo": "معلومات الاتصال",
-    "whatsapp": "واتساب: {phone}",
+    "whatsapp": "واتساب: <num>{phone}</num>",
     "requestQuote": "طلب عرض سعر",
     "downloadCatalog": "تحميل الكتالوج",
     "copyright": "© {year} الإخلاص — ETC للتجارة والهندسة. جميع الحقوق محفوظة.",

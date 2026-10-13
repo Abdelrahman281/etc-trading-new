@@ -134,7 +134,7 @@ export async function Footer() {
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-orange-400" />
-                <a href={telHref(companyInfo.phone)} className="text-navy-300 hover:text-orange-400">
+                <a href={telHref(companyInfo.phone)} dir="ltr" className="text-navy-300 hover:text-orange-400">
                   {companyInfo.phone}
                 </a>
               </li>
@@ -156,7 +156,10 @@ export async function Footer() {
                   rel="noopener noreferrer"
                   className="text-navy-300 hover:text-orange-400"
                 >
-                  {t('whatsapp', { phone: companyInfo.phone })}
+                  {t.rich('whatsapp', {
+                    phone: companyInfo.phone,
+                    num: (chunks) => <span dir="ltr">{chunks}</span>,
+                  })}
                 </a>
               </li>
             </ul>

@@ -326,7 +326,7 @@
     "productCategories": "Product Categories",
     "quickLinks": "Quick Links",
     "contactInfo": "Contact Information",
-    "whatsapp": "WhatsApp: {phone}",
+    "whatsapp": "WhatsApp: <num>{phone}</num>",
     "requestQuote": "Request a Quote",
     "downloadCatalog": "Download Catalog",
     "copyright": "© {year} EL-Ekhlas — ETC for Trading and Engineering Company. All rights reserved.",

@@ -61,7 +61,7 @@ export default async function AdminRfqDetailPage({
   const infoItems = [
     { icon: Building2, label: t('companyCol'), value: rfq.company },
     { icon: User, label: t('contactCol'), value: rfq.contact_person },
-    { icon: Phone, label: t('phone'), value: rfq.phone, href: telHref(rfq.phone) },
+    { icon: Phone, label: t('phone'), value: rfq.phone, href: telHref(rfq.phone), dir: 'ltr' as const },
     { icon: Mail, label: t('email'), value: rfq.email, href: `mailto:${rfq.email}` },
     { icon: Package, label: t('categoryCol'), value: rfq.category },
     {
@@ -123,7 +123,7 @@ export default async function AdminRfqDetailPage({
                     <dt className="text-xs font-medium uppercase tracking-wider text-navy-400">
                       {item.label}
                     </dt>
-                    <dd className="mt-0.5 text-sm font-medium text-navy-800">
+                    <dd className="mt-0.5 text-sm font-medium text-navy-800" dir={item.dir}>
                       {item.href ? (
                         <a href={item.href} className="text-orange-600 hover:text-orange-700">
                           {item.value}

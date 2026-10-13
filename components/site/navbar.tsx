@@ -61,7 +61,7 @@ export function Navbar() {
           <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-orange-500 font-bold text-white shadow-md shadow-orange-500/30 transition-transform group-hover:scale-105">
             <span className="font-barlow text-xl font-bold tracking-wide">ETC</span>
           </div>
-          <div className="hidden flex-col leading-tight sm:flex">
+          <div dir="ltr" className="hidden flex-col leading-tight sm:flex">
             <span className="font-barlow text-lg font-semibold tracking-wide text-white">
               ETC TRADING
             </span>
@@ -184,6 +184,7 @@ export function Navbar() {
           </Button>
           <a
             href={telHref(companyInfo.phone)}
+            dir="ltr"
             className="mt-2 px-4 py-2 text-center text-sm text-navy-200"
           >
             {companyInfo.phone}
