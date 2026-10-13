@@ -50,7 +50,7 @@ export async function Footer() {
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-orange-500 font-bold text-white">
                 <span className="font-barlow text-xl font-bold tracking-wide">ETC</span>
               </div>
-              <div className="flex flex-col leading-tight">
+              <div dir="ltr" className="flex flex-col leading-tight">
                 <span className="font-barlow text-lg font-semibold tracking-wide text-white">
                   ETC TRADING
                 </span>
