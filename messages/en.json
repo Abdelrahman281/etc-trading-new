@@ -403,6 +403,8 @@
       "subCategoryPlaceholder": "Select a sub-category (optional)",
       "name": "Product Name",
       "namePlaceholder": "e.g. Hexagon Bolt",
+      "nameAr": "Product Name (Arabic)",
+      "nameArPlaceholder": "e.g. برغي سداسي",
       "spec": "Specification",
       "specPlaceholder": "e.g. DIN 933 & 931, Grade 4.8 & 8.8",
       "sortOrder": "Sort Order",

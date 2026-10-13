@@ -138,6 +138,17 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
       </div>
 
       <div className="space-y-1.5">
+        <Label htmlFor="name_ar">{t('nameAr')}</Label>
+        <Input
+          id="name_ar"
+          name="name_ar"
+          dir="rtl"
+          defaultValue={product?.name_ar ?? ''}
+          placeholder={t('nameArPlaceholder')}
+        />
+      </div>
+
+      <div className="space-y-1.5">
         <Label htmlFor="spec">{t('spec')}</Label>
         <Input
           id="spec"

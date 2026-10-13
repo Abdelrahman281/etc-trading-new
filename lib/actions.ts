@@ -95,6 +95,7 @@ export async function createProduct(formData: FormData): Promise<{ success: bool
   const supabase = createClient();
 
   const name = (formData.get('name') as string)?.trim();
+  const nameAr = (formData.get('name_ar') as string)?.trim() || null;
   const spec = (formData.get('spec') as string)?.trim() || null;
   const categoryId = formData.get('category_id') as string;
   const subCategoryId = (formData.get('sub_category_id') as string) || null;
@@ -108,6 +109,7 @@ export async function createProduct(formData: FormData): Promise<{ success: bool
 
   const { error } = await supabase.from('products').insert({
     name,
+    name_ar: nameAr,
     spec,
     slug,
     category_id: categoryId,
@@ -129,6 +131,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
   const supabase = createClient();
 
   const name = (formData.get('name') as string)?.trim();
+  const nameAr = (formData.get('name_ar') as string)?.trim() || null;
   const spec = (formData.get('spec') as string)?.trim() || null;
   const categoryId = formData.get('category_id') as string;
   const subCategoryId = (formData.get('sub_category_id') as string) || null;
@@ -142,6 +145,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
     .from('products')
     .update({
       name,
+      name_ar: nameAr,
       spec,
       category_id: categoryId,
       sub_category_id: subCategoryId || null,

@@ -403,6 +403,8 @@
       "subCategoryPlaceholder": "اختر فئة فرعية (اختياري)",
       "name": "اسم المنتج",
       "namePlaceholder": "مثال: Hexagon Bolt",
+      "nameAr": "اسم المنتج (بالعربية)",
+      "nameArPlaceholder": "مثال: برغي سداسي",
       "spec": "المواصفة",
       "specPlaceholder": "مثال: DIN 933 & 931, Grade 4.8 & 8.8",
       "sortOrder": "ترتيب الفرز",
