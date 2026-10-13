@@ -430,6 +430,35 @@
       "submit": "تسجيل الدخول",
       "loggingIn": "جار تسجيل الدخول...",
       "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
+    },
+    "navCategories": "الفئات",
+    "categoriesTitle": "الفئات",
+    "categoriesDesc": "إدارة فئات المنتجات. إجمالي {count} فئة.",
+    "shortNameCol": "الاسم المختصر",
+    "noCategories": "لا توجد فئات بعد.",
+    "backToCategories": "العودة إلى الفئات",
+    "editCategory": "تعديل الفئة",
+    "categoryNotFound": "الفئة غير موجودة | إدارة ETC",
+    "editCategoryTitle": "تعديل {name} | إدارة ETC",
+    "subCategoriesLabel": "الفئات الفرعية",
+    "categoryForm": {
+      "name": "اسم الفئة",
+      "nameAr": "اسم الفئة (بالعربية)",
+      "shortName": "الاسم المختصر",
+      "shortNameAr": "الاسم المختصر (بالعربية)",
+      "description": "الوصف",
+      "descriptionAr": "الوصف (بالعربية)",
+      "sortOrder": "ترتيب العرض",
+      "save": "حفظ التغييرات",
+      "saved": "تم الحفظ",
+      "cancel": "إلغاء",
+      "error": "حدث خطأ ما."
+    },
+    "subCategoryForm": {
+      "name": "الاسم",
+      "nameAr": "الاسم (بالعربية)",
+      "saved": "تم الحفظ",
+      "error": "فشل الحفظ."
     }
   },
   "Metadata": {
@@ -471,7 +500,8 @@
     "adminAddProduct": "إضافة منتج | ETC Admin",
     "adminRfq": "طلبات عرض السعر | ETC Admin",
     "categoryTitle": "{name} | ETC التوريد الكهروميكانيكي",
-    "categoryOgTitle": "{name} | ETC"
+    "categoryOgTitle": "{name} | ETC",
+    "adminCategories": "الفئات | إدارة ETC"
   },
   "NotFound": {
     "title": "الصفحة غير موجودة",

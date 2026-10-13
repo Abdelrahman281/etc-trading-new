@@ -99,7 +99,7 @@ export default async function AdminDashboardPage({ params }: { params: { locale:
       label: t('statsCategories'),
       value: categories.length,
       icon: Layers,
-      href: `/${locale}/admin/products`,
+      href: `/${locale}/admin/categories`,
       accent: 'bg-green-600',
     },
   ];

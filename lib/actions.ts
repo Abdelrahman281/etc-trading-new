@@ -163,6 +163,71 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
   return { success: true };
 }
 
+// ─── Category / Sub-Category CRUD ──────────────────────────────────────────────
+
+export async function updateCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+
+  const name = (formData.get('name') as string)?.trim();
+  const nameAr = (formData.get('name_ar') as string)?.trim() || null;
+  const shortName = (formData.get('short_name') as string)?.trim();
+  const shortNameAr = (formData.get('short_name_ar') as string)?.trim() || null;
+  const description = (formData.get('description') as string)?.trim() || '';
+  const descriptionAr = (formData.get('description_ar') as string)?.trim() || null;
+  const sortOrder = parseInt(formData.get('sort_order') as string, 10) || 0;
+
+  if (!name || !shortName) {
+    return { success: false, error: 'Category name and short name are required.' };
+  }
+
+  const { error } = await supabase
+    .from('categories')
+    .update({
+      name,
+      name_ar: nameAr,
+      short_name: shortName,
+      short_name_ar: shortNameAr,
+      description,
+      description_ar: descriptionAr,
+      sort_order: sortOrder,
+    })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error updating category:', error);
+    return { success: false, error: 'Failed to update category.' };
+  }
+
+  revalidatePath('/admin/categories');
+  revalidateTag('catalog');
+  return { success: true };
+}
+
+export async function updateSubCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+
+  const name = (formData.get('name') as string)?.trim();
+  const nameAr = (formData.get('name_ar') as string)?.trim() || null;
+
+  if (!name) {
+    return { success: false, error: 'Sub-category name is required.' };
+  }
+
+  const { error } = await supabase
+    .from('sub_categories')
+    .update({ name, name_ar: nameAr })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error updating sub-category:', error);
+    return { success: false, error: 'Failed to update sub-category.' };
+  }
+
+  revalidatePath('/admin/categories');
+  revalidateTag('catalog');
+  return { success: true };
+}
+
 export async function deleteProduct(id: string): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient();
 

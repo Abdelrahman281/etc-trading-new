@@ -8,6 +8,7 @@ export async function AdminHeader({ locale }: { locale: string }) {
   const navItems = [
     { href: `/${locale}/admin`, label: t('navDashboard') },
     { href: `/${locale}/admin/products`, label: t('navProducts') },
+    { href: `/${locale}/admin/categories`, label: t('navCategories') },
     { href: `/${locale}/admin/rfq`, label: t('navRfq') },
   ];
 

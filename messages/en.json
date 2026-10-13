@@ -430,6 +430,35 @@
       "submit": "Log in",
       "loggingIn": "Logging in...",
       "invalidCredentials": "The email or password is incorrect."
+    },
+    "navCategories": "Categories",
+    "categoriesTitle": "Categories",
+    "categoriesDesc": "Manage your product categories. {count} categories total.",
+    "shortNameCol": "Short Name",
+    "noCategories": "No categories yet.",
+    "backToCategories": "Back to Categories",
+    "editCategory": "Edit Category",
+    "categoryNotFound": "Category Not Found | ETC Admin",
+    "editCategoryTitle": "Edit {name} | ETC Admin",
+    "subCategoriesLabel": "Sub-Categories",
+    "categoryForm": {
+      "name": "Category Name",
+      "nameAr": "Category Name (Arabic)",
+      "shortName": "Short Name",
+      "shortNameAr": "Short Name (Arabic)",
+      "description": "Description",
+      "descriptionAr": "Description (Arabic)",
+      "sortOrder": "Sort Order",
+      "save": "Save Changes",
+      "saved": "Saved",
+      "cancel": "Cancel",
+      "error": "Something went wrong."
+    },
+    "subCategoryForm": {
+      "name": "Name",
+      "nameAr": "Name (Arabic)",
+      "saved": "Saved",
+      "error": "Failed to save."
     }
   },
   "Metadata": {
@@ -471,7 +500,8 @@
     "adminAddProduct": "Add Product | ETC Admin",
     "adminRfq": "RFQ Requests | ETC Admin",
     "categoryTitle": "{name} | ETC Electromechanical Supply",
-    "categoryOgTitle": "{name} | ETC"
+    "categoryOgTitle": "{name} | ETC",
+    "adminCategories": "Categories | ETC Admin"
   },
   "NotFound": {
     "title": "Page Not Found",
