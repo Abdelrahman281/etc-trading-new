@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { updateCategory } from '@/lib/actions';
+import { uploadCatalogImage } from '@/lib/upload-image';
 import { useTranslations } from 'next-intl';
 import type { Category } from '@/lib/types';
 
@@ -33,9 +34,24 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
     e.preventDefault();
     setError(null);
     setSaved(false);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const imageInput = form.elements.namedItem('image') as HTMLInputElement;
+    const imageFile = imageInput?.files?.[0];
+    formData.delete('image');
 
     startTransition(async () => {
+      let imageUrl = category.image_url ?? '';
+      if (imageFile) {
+        const uploaded = await uploadCatalogImage(imageFile, 'categories');
+        if (uploaded.error) {
+          setError(uploaded.error);
+          return;
+        }
+        imageUrl = uploaded.url ?? imageUrl;
+      }
+      formData.set('image_url', imageUrl);
+
       const result = await updateCategory(category.id, formData);
       if (result.success) {
         setSaved(true);

@@ -14,6 +14,7 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { createProduct, updateProduct } from '@/lib/actions';
+import { uploadCatalogImage } from '@/lib/upload-image';
 import { useTranslations } from 'next-intl';
 import type { Category, SubCategory, Product } from '@/lib/types';
 
@@ -59,9 +60,24 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const imageInput = form.elements.namedItem('image') as HTMLInputElement;
+    const imageFile = imageInput?.files?.[0];
+    formData.delete('image');
 
     startTransition(async () => {
+      let imageUrl = product?.image_url ?? '';
+      if (imageFile) {
+        const uploaded = await uploadCatalogImage(imageFile, 'products');
+        if (uploaded.error) {
+          setError(uploaded.error);
+          return;
+        }
+        imageUrl = uploaded.url ?? imageUrl;
+      }
+      formData.set('image_url', imageUrl);
+
       const result =
         mode === 'create'
           ? await createProduct(formData)

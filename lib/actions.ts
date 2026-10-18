@@ -72,37 +72,6 @@ function slugify(text: string): string {
   );
 }
 
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
-
-async function uploadCatalogImage(
-  supabase: ReturnType<typeof createClient>,
-  file: File,
-  folder: 'products' | 'categories'
-): Promise<{ url?: string; error?: string }> {
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { error: 'Image must be a JPG, PNG, or WEBP file.' };
-  }
-  if (file.size > MAX_IMAGE_BYTES) {
-    return { error: 'Image must be smaller than 5MB.' };
-  }
-
-  const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
-  const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-
-  const { error } = await supabase.storage.from('catalog-images').upload(path, file, {
-    contentType: file.type,
-  });
-
-  if (error) {
-    console.error('Error uploading image:', error);
-    return { error: 'Failed to upload image.' };
-  }
-
-  const { data } = supabase.storage.from('catalog-images').getPublicUrl(path);
-  return { url: data.publicUrl };
-}
-
 async function generateUniqueProductSlug(
   supabase: ReturnType<typeof createClient>,
   name: string
@@ -136,16 +105,7 @@ export async function createProduct(formData: FormData): Promise<{ success: bool
     return { success: false, error: 'Product name and category are required.' };
   }
 
-  let imageUrl: string | null = null;
-  const imageFile = formData.get('image') as File | null;
-  if (imageFile && imageFile.size > 0) {
-    const uploaded = await uploadCatalogImage(supabase, imageFile, 'products');
-    if (uploaded.error) {
-      return { success: false, error: uploaded.error };
-    }
-    imageUrl = uploaded.url ?? null;
-  }
-
+  const imageUrl = (formData.get('image_url') as string)?.trim() || null;
   const slug = await generateUniqueProductSlug(supabase, name);
 
   const { error } = await supabase.from('products').insert({
@@ -183,27 +143,19 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
     return { success: false, error: 'Product name and category are required.' };
   }
 
-  const updateData: Record<string, unknown> = {
-    name,
-    name_ar: nameAr,
-    spec,
-    category_id: categoryId,
-    sub_category_id: subCategoryId || null,
-    sort_order: sortOrder,
-  };
-
-  const imageFile = formData.get('image') as File | null;
-  if (imageFile && imageFile.size > 0) {
-    const uploaded = await uploadCatalogImage(supabase, imageFile, 'products');
-    if (uploaded.error) {
-      return { success: false, error: uploaded.error };
-    }
-    updateData.image_url = uploaded.url;
-  }
+  const imageUrl = (formData.get('image_url') as string)?.trim() || null;
 
   const { error } = await supabase
     .from('products')
-    .update(updateData)
+    .update({
+      name,
+      name_ar: nameAr,
+      spec,
+      category_id: categoryId,
+      sub_category_id: subCategoryId || null,
+      sort_order: sortOrder,
+      image_url: imageUrl,
+    })
     .eq('id', id);
 
   if (error) {
@@ -233,28 +185,20 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
     return { success: false, error: 'Category name and short name are required.' };
   }
 
-  const updateData: Record<string, unknown> = {
-    name,
-    name_ar: nameAr,
-    short_name: shortName,
-    short_name_ar: shortNameAr,
-    description,
-    description_ar: descriptionAr,
-    sort_order: sortOrder,
-  };
-
-  const imageFile = formData.get('image') as File | null;
-  if (imageFile && imageFile.size > 0) {
-    const uploaded = await uploadCatalogImage(supabase, imageFile, 'categories');
-    if (uploaded.error) {
-      return { success: false, error: uploaded.error };
-    }
-    updateData.image_url = uploaded.url;
-  }
+  const imageUrl = (formData.get('image_url') as string)?.trim() || null;
 
   const { error } = await supabase
     .from('categories')
-    .update(updateData)
+    .update({
+      name,
+      name_ar: nameAr,
+      short_name: shortName,
+      short_name_ar: shortNameAr,
+      description,
+      description_ar: descriptionAr,
+      sort_order: sortOrder,
+      image_url: imageUrl,
+    })
     .eq('id', id);
 
   if (error) {
