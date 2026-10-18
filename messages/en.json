@@ -411,7 +411,9 @@
       "create": "Create Product",
       "save": "Save Changes",
       "cancel": "Cancel",
-      "error": "Something went wrong."
+      "error": "Something went wrong.",
+      "image": "Product Image",
+      "imageHint": "JPG, PNG, or WEBP. Max 5MB. Leave empty to keep the current image."
     },
     "deleteButton": {
       "confirm": "Confirm",
@@ -452,7 +454,9 @@
       "save": "Save Changes",
       "saved": "Saved",
       "cancel": "Cancel",
-      "error": "Something went wrong."
+      "error": "Something went wrong.",
+      "image": "Category Image",
+      "imageHint": "JPG, PNG, or WEBP. Max 5MB. Leave empty to keep the current image."
     },
     "subCategoryForm": {
       "name": "Name",

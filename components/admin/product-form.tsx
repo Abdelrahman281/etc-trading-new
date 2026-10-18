@@ -35,7 +35,13 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
   const [selectedSubCategory, setSelectedSubCategory] = useState(
     product?.sub_category_id ?? ''
   );
+  const [imagePreview, setImagePreview] = useState<string | null>(product?.image_url ?? null);
   const t = useTranslations('Admin.productForm');
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setImagePreview(file ? URL.createObjectURL(file) : product?.image_url ?? null);
+  };
 
   useEffect(() => {
     if (!selectedCategory) {
@@ -65,7 +71,7 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
         router.push(`/${locale}/admin/products`);
         router.refresh();
       } else {
-        setError(t('error'));
+        setError(result.error ?? t('error'));
       }
     });
   };
@@ -156,6 +162,29 @@ export function ProductForm({ categories, product, mode, locale = 'en' }: Produc
           defaultValue={product?.spec ?? ''}
           placeholder={t('specPlaceholder')}
         />
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="image">{t('image')}</Label>
+        <div className="flex items-center gap-4">
+          {imagePreview && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={imagePreview}
+              alt=""
+              className="h-20 w-20 shrink-0 rounded-lg border border-navy-100 object-contain p-1"
+            />
+          )}
+          <Input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleImageChange}
+            className="max-w-sm"
+          />
+        </div>
+        <p className="text-xs text-navy-400">{t('imageHint')}</p>
       </div>
 
       <div className="space-y-1.5">

@@ -21,7 +21,13 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(category.image_url ?? null);
   const t = useTranslations('Admin.categoryForm');
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setImagePreview(file ? URL.createObjectURL(file) : category.image_url ?? null);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +41,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
         setSaved(true);
         router.refresh();
       } else {
-        setError(t('error'));
+        setError(result.error ?? t('error'));
       }
     });
   };
@@ -83,6 +89,29 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
           <Label htmlFor="description_ar">{t('descriptionAr')}</Label>
           <Textarea id="description_ar" name="description_ar" dir="rtl" rows={4} defaultValue={category.description_ar ?? ''} />
         </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="image">{t('image')}</Label>
+        <div className="flex items-center gap-4">
+          {imagePreview && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={imagePreview}
+              alt=""
+              className="h-20 w-20 shrink-0 rounded-lg border border-navy-100 object-cover"
+            />
+          )}
+          <Input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleImageChange}
+            className="max-w-sm"
+          />
+        </div>
+        <p className="text-xs text-navy-400">{t('imageHint')}</p>
       </div>
 
       <div className="space-y-1.5">
