@@ -142,13 +142,6 @@ export default async function CategoryPage({
                 )}
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                {/* TODO: Replace href with real datasheet PDF URL when available */}
-                <Button variant="outline" className="border-navy-200" asChild>
-                  <a href="#" download>
-                    <Download className="me-2 h-4 w-4" />
-                    {t('downloadDatasheet')}
-                  </a>
-                </Button>
                 <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
                   <Link href={`/${locale}/cart`}>
                     {t('viewQuoteCart')}
