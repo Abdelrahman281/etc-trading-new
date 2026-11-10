@@ -216,6 +216,7 @@ export async function updateSubCategory(id: string, formData: FormData): Promise
 
   const name = (formData.get('name') as string)?.trim();
   const nameAr = (formData.get('name_ar') as string)?.trim() || null;
+  const datasheetUrl = (formData.get('datasheet_url') as string)?.trim() || null;
 
   if (!name) {
     return { success: false, error: 'Sub-category name is required.' };
@@ -223,7 +224,7 @@ export async function updateSubCategory(id: string, formData: FormData): Promise
 
   const { error } = await supabase
     .from('sub_categories')
-    .update({ name, name_ar: nameAr })
+    .update({ name, name_ar: nameAr, datasheet_url: datasheetUrl })
     .eq('id', id);
 
   if (error) {

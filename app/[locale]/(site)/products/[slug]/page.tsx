@@ -290,9 +290,23 @@ export default async function CategoryPage({
               {category.subCategories.map((sub, si) => (
                 <Reveal key={sub.id} delay={si * 60}>
                   <div className="rounded-2xl border border-navy-100 bg-navy-50 p-6 shadow-sm sm:p-8">
-                    <h3 className="font-barlow text-xl font-bold text-navy-900">
-                      {localized(sub.name, sub.name_ar, locale)}
-                    </h3>
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <h3 className="font-barlow text-xl font-bold text-navy-900">
+                        {localized(sub.name, sub.name_ar, locale)}
+                      </h3>
+                      {sub.datasheet_url && (
+                        <a
+                          href={sub.datasheet_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download
+                          className="inline-flex items-center gap-1.5 rounded-md border border-navy-200 bg-white px-3 py-1.5 text-xs font-semibold text-navy-700 transition-colors hover:border-orange-200 hover:text-orange-600"
+                        >
+                          <Download className="h-3.5 w-3.5" />
+                          {t('downloadDatasheet')}
+                        </a>
+                      )}
+                    </div>
                     <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                       {sub.products.map((item) => {
                         const itemName = localized(item.name, item.name_ar, locale);

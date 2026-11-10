@@ -27,6 +27,7 @@ export interface SubCategory {
   name: string;
   name_ar: string | null;
   sort_order: number;
+  datasheet_url: string | null;
   products?: Product[];
 }
 

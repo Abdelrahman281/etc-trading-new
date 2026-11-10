@@ -462,7 +462,9 @@
       "name": "Name",
       "nameAr": "Name (Arabic)",
       "saved": "Saved",
-      "error": "Failed to save."
+      "error": "Failed to save.",
+      "datasheet": "Datasheet (PDF)",
+      "currentDatasheet": "Current datasheet"
     }
   },
   "Metadata": {
