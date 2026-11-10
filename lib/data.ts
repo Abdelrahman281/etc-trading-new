@@ -543,18 +543,18 @@ export const featuredProjects: Project[] = [
     client: 'Kortec — Hassan Allam Technology',
     location: 'Greater Cairo',
     sectorKey: 'aviationInfrastructure',
-    // Real photo of Sphinx International Airport (Wikimedia Commons).
+    // Real photo of Sphinx International Airport, self-hosted (source: Wikimedia Commons).
     image:
-      'https://commons.wikimedia.org/wiki/Special:FilePath/Sphinx_International_Airport_01.jpg?width=940',
+      'https://qlkvaxryjwludbkfayqv.supabase.co/storage/v1/object/public/catalog-images/projects/sphinx-international-airport.jpg',
   },
   {
     name: 'New Administrative Capital — Power Station & Capital Towers',
     client: 'SIMCO · Hassan Allam Construction',
     location: 'New Administrative Capital, Egypt',
     sectorKey: 'urbanDevelopment',
-    // Real photo of the Iconic Tower in the New Administrative Capital (Wikimedia Commons).
+    // Real photo of the Iconic Tower, self-hosted (source: Wikimedia Commons).
     image:
-      'https://commons.wikimedia.org/wiki/Special:FilePath/Iconic_Tower_Egypt.jpg?width=940',
+      'https://qlkvaxryjwludbkfayqv.supabase.co/storage/v1/object/public/catalog-images/projects/new-administrative-capital-iconic-tower.jpg',
   },
   {
     name: 'Bashteel Train Station',
@@ -577,9 +577,9 @@ export const featuredProjects: Project[] = [
     client: 'Hassan Allam Construction',
     location: 'Alamein City',
     sectorKey: 'mixedUseHighRise',
-    // Real photo of the Alamein Towers (Wikimedia Commons).
+    // Real photo of the Alamein Towers, self-hosted (source: Wikimedia Commons).
     image:
-      'https://commons.wikimedia.org/wiki/Special:FilePath/Alamein_towers.png?width=940',
+      'https://qlkvaxryjwludbkfayqv.supabase.co/storage/v1/object/public/catalog-images/projects/alamein-towers.png',
   },
 ];
 
