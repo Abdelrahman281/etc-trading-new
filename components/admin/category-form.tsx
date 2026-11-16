@@ -107,6 +107,32 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
         </div>
       </div>
 
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="features">{t('features')}</Label>
+          <Textarea
+            id="features"
+            name="features"
+            rows={5}
+            defaultValue={(category.features ?? []).join('\n')}
+            placeholder={t('featuresPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('featuresHint')}</p>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="features_ar">{t('featuresAr')}</Label>
+          <Textarea
+            id="features_ar"
+            name="features_ar"
+            dir="rtl"
+            rows={5}
+            defaultValue={(category.features_ar ?? []).join('\n')}
+            placeholder={t('featuresArPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('featuresHint')}</p>
+        </div>
+      </div>
+
       <div className="space-y-1.5">
         <Label htmlFor="image">{t('image')}</Label>
         <div className="flex items-center gap-4">

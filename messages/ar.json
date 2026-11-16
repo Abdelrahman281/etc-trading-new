@@ -456,7 +456,12 @@
       "cancel": "إلغاء",
       "error": "حدث خطأ ما.",
       "image": "صورة الفئة",
-      "imageHint": "JPG أو PNG أو WEBP، بحد أقصى 5 ميجابايت. اتركه فارغاً للاحتفاظ بالصورة الحالية."
+      "imageHint": "JPG أو PNG أو WEBP، بحد أقصى 5 ميجابايت. اتركه فارغاً للاحتفاظ بالصورة الحالية.",
+      "features": "الميزات الرئيسية",
+      "featuresAr": "الميزات الرئيسية (بالعربية)",
+      "featuresPlaceholder": "One feature per line",
+      "featuresArPlaceholder": "ميزة واحدة في كل سطر",
+      "featuresHint": "ميزة واحدة في كل سطر."
     },
     "subCategoryForm": {
       "name": "الاسم",

@@ -1,13 +1,10 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/seo';
-import { getCategories, getAllProductSlugs } from '@/lib/queries';
+import { getCategories } from '@/lib/queries';
 import { routing } from '@/i18n/routing';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, productSlugs] = await Promise.all([
-    getCategories(),
-    getAllProductSlugs(),
-  ]);
+  const categories = await getCategories();
 
   const staticPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number }[] = [
     { path: '', changeFrequency: 'weekly', priority: 1 },
@@ -23,13 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const productPaths = productSlugs.map(({ category, product }) => ({
-    path: `/products/${category}/${product}`,
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }));
-
-  const allPaths = [...staticPaths, ...categoryPaths, ...productPaths];
+  const allPaths = [...staticPaths, ...categoryPaths];
 
   return allPaths.flatMap(({ path, changeFrequency, priority }) =>
     routing.locales.map((locale) => ({

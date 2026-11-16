@@ -456,7 +456,12 @@
       "cancel": "Cancel",
       "error": "Something went wrong.",
       "image": "Category Image",
-      "imageHint": "JPG, PNG, or WEBP. Max 5MB. Leave empty to keep the current image."
+      "imageHint": "JPG, PNG, or WEBP. Max 5MB. Leave empty to keep the current image.",
+      "features": "Key Features",
+      "featuresAr": "Key Features (Arabic)",
+      "featuresPlaceholder": "One feature per line",
+      "featuresArPlaceholder": "ميزة واحدة في كل سطر",
+      "featuresHint": "One feature per line."
     },
     "subCategoryForm": {
       "name": "Name",

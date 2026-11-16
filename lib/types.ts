@@ -44,7 +44,6 @@ export interface Product {
   slug: string;
   image_url: string | null;
   images: string[];
-  features: string[];
   specifications: Record<string, string>;
   applications: string[];
   available_sizes: string[];

@@ -315,16 +315,13 @@ export default async function Home({ params }: { params: { locale: string } }) {
               );
               return (
                 <Reveal key={`${product.name}-${i}`} delay={i * 60}>
-                  <Link
-                    href={`/${locale}/products/${product.categorySlug}/${product.slug}`}
-                    className="group relative block overflow-hidden rounded-xl border border-navy-100 bg-navy-50 transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg"
-                  >
+                  <div className="relative overflow-hidden rounded-xl border border-navy-100 bg-navy-50">
                     <div className="relative h-36 overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={product.image_url ?? ''}
                         alt={name}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="h-full w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
                       <span className="absolute start-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
@@ -337,7 +334,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
                       </h3>
                       <p className="mt-1 text-xs text-navy-500">{product.spec}</p>
                     </div>
-                  </Link>
+                  </div>
                 </Reveal>
               );
             })}

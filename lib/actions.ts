@@ -170,6 +170,13 @@ export async function updateProduct(id: string, formData: FormData): Promise<{ s
 
 // ─── Category / Sub-Category CRUD ──────────────────────────────────────────────
 
+function parseLines(value: FormDataEntryValue | null): string[] {
+  return (value as string ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
 export async function updateCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient();
 
@@ -180,6 +187,8 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
   const description = (formData.get('description') as string)?.trim() || '';
   const descriptionAr = (formData.get('description_ar') as string)?.trim() || null;
   const sortOrder = parseInt(formData.get('sort_order') as string, 10) || 0;
+  const features = parseLines(formData.get('features'));
+  const featuresAr = parseLines(formData.get('features_ar'));
 
   if (!name || !shortName) {
     return { success: false, error: 'Category name and short name are required.' };
@@ -198,6 +207,8 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
       description_ar: descriptionAr,
       sort_order: sortOrder,
       image_url: imageUrl,
+      features,
+      features_ar: featuresAr.length > 0 ? featuresAr : null,
     })
     .eq('id', id);
 

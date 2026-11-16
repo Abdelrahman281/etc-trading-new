@@ -304,10 +304,9 @@ export default async function CategoryPage({
                       {sub.products.map((item) => {
                         const itemName = localized(item.name, item.name_ar, locale);
                         return (
-                        <Link
+                        <div
                           key={item.id}
-                          href={`/${locale}/products/${category.slug}/${item.slug}`}
-                          className="group flex items-center justify-between gap-3 rounded-lg border border-navy-100 bg-white p-4 transition-colors hover:border-orange-200 hover:bg-navy-50"
+                          className="flex items-center justify-between gap-3 rounded-lg border border-navy-100 bg-white p-4"
                         >
                           <img
                             src={item.image_url ?? ''}
@@ -317,7 +316,7 @@ export default async function CategoryPage({
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <Tag className="h-3.5 w-3.5 shrink-0 text-orange-400" />
-                              <span className="text-sm font-semibold text-navy-800 group-hover:text-orange-600">
+                              <span className="text-sm font-semibold text-navy-800">
                                 {itemName}
                               </span>
                             </div>
@@ -335,7 +334,7 @@ export default async function CategoryPage({
                               categorySlug: category.slug,
                             }}
                           />
-                        </Link>
+                        </div>
                         );
                       })}
                     </div>
