@@ -177,6 +177,17 @@ function parseLines(value: FormDataEntryValue | null): string[] {
     .filter(Boolean);
 }
 
+// Parses "Label: Value" lines (one per spec) into {label, value} pairs.
+function parseSpecLines(value: FormDataEntryValue | null): { label: string; value: string }[] {
+  return parseLines(value)
+    .map((line) => {
+      const idx = line.indexOf(':');
+      if (idx === -1) return null;
+      return { label: line.slice(0, idx).trim(), value: line.slice(idx + 1).trim() };
+    })
+    .filter((spec): spec is { label: string; value: string } => !!spec && !!spec.label && !!spec.value);
+}
+
 export async function updateCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient();
 
@@ -189,6 +200,10 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
   const sortOrder = parseInt(formData.get('sort_order') as string, 10) || 0;
   const features = parseLines(formData.get('features'));
   const featuresAr = parseLines(formData.get('features_ar'));
+  const specifications = parseSpecLines(formData.get('specifications'));
+  const specificationsAr = parseSpecLines(formData.get('specifications_ar'));
+  const applications = parseLines(formData.get('applications'));
+  const applicationsAr = parseLines(formData.get('applications_ar'));
 
   if (!name || !shortName) {
     return { success: false, error: 'Category name and short name are required.' };
@@ -209,6 +224,10 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
       image_url: imageUrl,
       features,
       features_ar: featuresAr.length > 0 ? featuresAr : null,
+      specifications,
+      specifications_ar: specificationsAr.length > 0 ? specificationsAr : null,
+      applications,
+      applications_ar: applicationsAr.length > 0 ? applicationsAr : null,
     })
     .eq('id', id);
 

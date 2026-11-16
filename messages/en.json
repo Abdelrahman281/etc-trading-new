@@ -461,7 +461,15 @@
       "featuresAr": "Key Features (Arabic)",
       "featuresPlaceholder": "One feature per line",
       "featuresArPlaceholder": "ميزة واحدة في كل سطر",
-      "featuresHint": "One feature per line."
+      "featuresHint": "One feature per line.",
+      "specifications": "Technical Specifications",
+      "specificationsAr": "Technical Specifications (Arabic)",
+      "specificationsPlaceholder": "Label: Value (one per line), e.g. Standards: DIN 933, 931, 912",
+      "specificationsHint": "One \"Label: Value\" pair per line.",
+      "applications": "Common Applications",
+      "applicationsAr": "Common Applications (Arabic)",
+      "applicationsPlaceholder": "One application per line",
+      "applicationsArPlaceholder": "تطبيق واحد في كل سطر"
     },
     "subCategoryForm": {
       "name": "Name",

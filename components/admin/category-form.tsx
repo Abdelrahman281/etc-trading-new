@@ -133,6 +133,58 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
         </div>
       </div>
 
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="specifications">{t('specifications')}</Label>
+          <Textarea
+            id="specifications"
+            name="specifications"
+            rows={5}
+            defaultValue={(category.specifications ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
+            placeholder={t('specificationsPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('specificationsHint')}</p>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="specifications_ar">{t('specificationsAr')}</Label>
+          <Textarea
+            id="specifications_ar"
+            name="specifications_ar"
+            dir="rtl"
+            rows={5}
+            defaultValue={(category.specifications_ar ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
+            placeholder={t('specificationsArPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('specificationsHint')}</p>
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="applications">{t('applications')}</Label>
+          <Textarea
+            id="applications"
+            name="applications"
+            rows={4}
+            defaultValue={(category.applications ?? []).join('\n')}
+            placeholder={t('applicationsPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('featuresHint')}</p>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="applications_ar">{t('applicationsAr')}</Label>
+          <Textarea
+            id="applications_ar"
+            name="applications_ar"
+            dir="rtl"
+            rows={4}
+            defaultValue={(category.applications_ar ?? []).join('\n')}
+            placeholder={t('applicationsArPlaceholder')}
+          />
+          <p className="text-xs text-navy-400">{t('featuresHint')}</p>
+        </div>
+      </div>
+
       <div className="space-y-1.5">
         <Label htmlFor="image">{t('image')}</Label>
         <div className="flex items-center gap-4">

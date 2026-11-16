@@ -461,7 +461,15 @@
       "featuresAr": "الميزات الرئيسية (بالعربية)",
       "featuresPlaceholder": "One feature per line",
       "featuresArPlaceholder": "ميزة واحدة في كل سطر",
-      "featuresHint": "ميزة واحدة في كل سطر."
+      "featuresHint": "ميزة واحدة في كل سطر.",
+      "specifications": "المواصفات الفنية",
+      "specificationsAr": "المواصفات الفنية (بالعربية)",
+      "specificationsPlaceholder": "Label: Value (one per line), e.g. Standards: DIN 933, 931, 912",
+      "specificationsHint": "سطر لكل زوج \"التسمية: القيمة\".",
+      "applications": "الاستخدامات الشائعة",
+      "applicationsAr": "الاستخدامات الشائعة (بالعربية)",
+      "applicationsPlaceholder": "One application per line",
+      "applicationsArPlaceholder": "تطبيق واحد في كل سطر"
     },
     "subCategoryForm": {
       "name": "الاسم",
