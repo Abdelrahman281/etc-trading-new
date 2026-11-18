@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { sendRfqNotification } from '@/lib/email';
 import type { RfqSubmission } from '@/lib/types';
 
 export async function submitRfq(submission: RfqSubmission): Promise<{
@@ -35,7 +36,15 @@ export async function submitRfq(submission: RfqSubmission): Promise<{
   }
 
   revalidatePath('/admin');
-  return { success: true, id: data as string };
+
+  const rfqId = data as string;
+  // Never let an email failure affect the RFQ submission itself - the lead
+  // is already saved; the admin can still find it in the panel either way.
+  sendRfqNotification(rfqId, submission).catch((err) =>
+    console.error('Error sending RFQ notification email:', err)
+  );
+
+  return { success: true, id: rfqId };
 }
 
 export async function updateRfqStatus(
