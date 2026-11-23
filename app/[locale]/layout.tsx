@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { RtlProvider } from '@/components/site/rtl-provider';
 import { routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/seo';
+import { organizationSchema } from '@/lib/structured-data';
 
 export async function generateMetadata({
   params,
@@ -67,6 +68,10 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema()) }}
+      />
       <RtlProvider dir={dir}>{children}</RtlProvider>
     </NextIntlClientProvider>
   );

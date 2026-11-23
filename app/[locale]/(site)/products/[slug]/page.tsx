@@ -20,6 +20,7 @@ import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 import { localized, localizedList } from '@/lib/localized';
 import { DirectionalArrow } from '@/components/site/directional-arrow';
+import { breadcrumbListSchema, categoryItemListSchema } from '@/lib/structured-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,21 +83,41 @@ export default async function CategoryPage({
   const categorySpecifications = localizedList(category.specifications, category.specifications_ar, locale);
   const categoryApplications = localizedList(category.applications, category.applications_ar, locale);
 
+  const breadcrumbItems = [
+    { label: t('home'), href: `/${locale}` },
+    { label: t('products'), href: `/${locale}/products` },
+    { label: categoryName },
+  ];
+  const allCategoryProducts = category.subCategories.flatMap((sub) => sub.products);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbListSchema(breadcrumbItems, locale, `/products/${category.slug}`)
+          ),
+        }}
+      />
+      {allCategoryProducts.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              categoryItemListSchema(allCategoryProducts, category.slug, locale)
+            ),
+          }}
+        />
+      )}
+
       <PageHeader
         eyebrow={t('eyebrow')}
         title={categoryName}
         subtitle={categoryDescription}
       />
 
-      <Breadcrumbs
-        items={[
-          { label: t('home'), href: `/${locale}` },
-          { label: t('products'), href: `/${locale}/products` },
-          { label: categoryName },
-        ]}
-      />
+      <Breadcrumbs items={breadcrumbItems} />
 
       {/* Hero banner */}
       <section className="bg-white py-12 sm:py-16">
