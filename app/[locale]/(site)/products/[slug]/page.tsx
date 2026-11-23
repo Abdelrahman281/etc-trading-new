@@ -16,6 +16,7 @@ import { Reveal } from '@/components/site/reveal';
 import { Breadcrumbs } from '@/components/site/breadcrumbs';
 import { AddToQuoteButton } from '@/components/site/add-to-quote-button';
 import { DownloadCatalogSection } from '@/components/site/download-catalog-section';
+import { ImageLightbox } from '@/components/site/image-lightbox';
 import { getCategories, getCategoryWithDetails } from '@/lib/queries';
 import { getCategoryIcon } from '@/lib/icons';
 import { localized, localizedList } from '@/lib/localized';
@@ -329,11 +330,21 @@ export default async function CategoryPage({
                           key={item.id}
                           className="flex items-center justify-between gap-3 rounded-lg border border-navy-100 bg-white p-4"
                         >
-                          <img
-                            src={item.image_url ?? ''}
-                            alt={itemName}
-                            className="h-12 w-12 shrink-0 rounded-md object-cover"
-                          />
+                          {item.image_url ? (
+                            <ImageLightbox src={item.image_url} alt={itemName}>
+                              <img
+                                src={item.image_url}
+                                alt={itemName}
+                                className="h-12 w-12 shrink-0 rounded-md object-cover"
+                              />
+                            </ImageLightbox>
+                          ) : (
+                            <img
+                              src=""
+                              alt={itemName}
+                              className="h-12 w-12 shrink-0 rounded-md object-cover"
+                            />
+                          )}
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <Tag className="h-3.5 w-3.5 shrink-0 text-orange-400" />
