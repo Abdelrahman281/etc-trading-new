@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Target, Eye, ShieldCheck, Users, Lightbulb, Handshake, Building2, MapPin, Download } from 'lucide-react';
 import { getTranslations, getLocale, setRequestLocale } from 'next-intl/server';
@@ -135,12 +136,13 @@ export default async function AboutPage({ params }: { params: { locale: string }
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal>
-              <div className="overflow-hidden rounded-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+              <div className="relative h-[460px] overflow-hidden rounded-2xl">
+                <Image
                   src="https://images.pexels.com/photos/18920790/pexels-photo-18920790.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
                   alt=""
-                  className="h-[460px] w-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
             </Reveal>

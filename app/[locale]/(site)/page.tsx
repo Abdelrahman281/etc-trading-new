@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import {
   ShieldCheck,
@@ -94,11 +95,13 @@ export default async function Home({ params }: { params: { locale: string } }) {
     <>
       {/* ===== Hero ===== */}
       <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-navy-950">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={heroImage}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40" />
         <div className="bg-grid-dark absolute inset-0 opacity-50" />
@@ -191,12 +194,13 @@ export default async function Home({ params }: { params: { locale: string } }) {
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal>
               <div className="relative">
-                <div className="overflow-hidden rounded-2xl">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative h-[420px] overflow-hidden rounded-2xl">
+                  <Image
                     src="https://images.pexels.com/photos/8961133/pexels-photo-8961133.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
                     alt=""
-                    className="h-[420px] w-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="absolute -bottom-6 -end-6 hidden rounded-xl bg-orange-500 p-6 text-white shadow-xl sm:block">
@@ -317,12 +321,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
                 <Reveal key={`${product.name}-${i}`} delay={i * 60}>
                   <div className="relative overflow-hidden rounded-xl border border-navy-100 bg-navy-50">
                     <div className="relative h-36 overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={product.image_url ?? ''}
-                        alt={name}
-                        className="h-full w-full object-cover"
-                      />
+                      {product.image_url && (
+                        <Image
+                          src={product.image_url}
+                          alt={name}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          className="object-cover"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
                       <span className="absolute start-3 top-3 rounded-md bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
                         {categoryName}

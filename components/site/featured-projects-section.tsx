@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Building2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Reveal } from '@/components/site/reveal';
@@ -33,11 +34,12 @@ export function FeaturedProjectsSection() {
             <Reveal key={project.name} delay={i * 70}>
               <div className="group h-full overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg">
                 <div className="relative h-44 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent" />
                   <span className="absolute start-3 top-3 rounded-md bg-navy-900/80 px-2.5 py-1 text-xs font-semibold text-orange-400 backdrop-blur-sm">

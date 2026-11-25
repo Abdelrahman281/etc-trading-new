@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Package } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { getCategoryIcon } from '@/lib/icons';
@@ -29,7 +30,13 @@ export function ProductCard({
       className="group relative flex flex-col overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-orange-200 hover:shadow-xl hover:shadow-navy-900/10"
     >
       <div className="relative h-44 overflow-hidden">
-        <img src={category.image_url} alt={name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <Image
+          src={category.image_url}
+          alt={name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
         <div className="absolute start-4 top-4 flex h-11 w-11 items-center justify-center rounded-lg bg-orange-500 text-white shadow-md shadow-orange-500/30 transition-transform duration-500 group-hover:scale-110">
           <Icon className="h-5 w-5" />

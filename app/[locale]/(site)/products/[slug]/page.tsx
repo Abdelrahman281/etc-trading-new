@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Tag,
   Package,
@@ -125,12 +126,14 @@ export default async function CategoryPage({
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-8 lg:grid-cols-2">
             <Reveal>
-              <div className="relative overflow-hidden rounded-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+              <div className="relative h-[320px] overflow-hidden rounded-2xl sm:h-[400px]">
+                <Image
                   src={category.image_url}
                   alt={categoryName}
-                  className="h-[320px] w-full object-cover sm:h-[400px]"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                  className="object-cover"
                 />
                 <div className="absolute start-4 top-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/30">
                   <Icon className="h-7 w-7" />
@@ -332,18 +335,16 @@ export default async function CategoryPage({
                         >
                           {item.image_url ? (
                             <ImageLightbox src={item.image_url} alt={itemName}>
-                              <img
+                              <Image
                                 src={item.image_url}
                                 alt={itemName}
+                                width={48}
+                                height={48}
                                 className="h-12 w-12 shrink-0 rounded-md object-cover"
                               />
                             </ImageLightbox>
                           ) : (
-                            <img
-                              src=""
-                              alt={itemName}
-                              className="h-12 w-12 shrink-0 rounded-md object-cover"
-                            />
+                            <div className="h-12 w-12 shrink-0 rounded-md bg-navy-100" />
                           )}
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
