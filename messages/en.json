@@ -469,7 +469,9 @@
       "applications": "Common Applications",
       "applicationsAr": "Common Applications (Arabic)",
       "applicationsPlaceholder": "One application per line",
-      "applicationsArPlaceholder": "تطبيق واحد في كل سطر"
+      "applicationsArPlaceholder": "تطبيق واحد في كل سطر",
+      "icon": "Icon",
+      "imageRequired": "An image is required."
     },
     "subCategoryForm": {
       "name": "Name",
@@ -478,6 +480,13 @@
       "error": "Failed to save.",
       "datasheet": "Datasheet (PDF)",
       "currentDatasheet": "Current datasheet"
+    },
+    "addCategory": "Add Category",
+    "deleteCategoryButton": {
+      "confirm": "Confirm",
+      "confirmWithCount": "Delete (and {count, plural, one {# product} other {# products}})",
+      "cancel": "Cancel",
+      "deleteLabel": "Delete {name}"
     }
   },
   "Metadata": {

@@ -7,27 +7,38 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { updateCategory } from '@/lib/actions';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+import { createCategory, updateCategory } from '@/lib/actions';
 import { uploadCatalogImage } from '@/lib/upload-image';
 import { useTranslations } from 'next-intl';
 import type { Category } from '@/lib/types';
 
+const ICON_OPTIONS = ['Package', 'Nut', 'Layers', 'Zap', 'Pipette', 'Hammer'];
+
 interface CategoryFormProps {
-  category: Category;
+  category?: Category | null;
+  mode: 'create' | 'edit';
   locale?: string;
 }
 
-export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
+export function CategoryForm({ category, mode, locale = 'en' }: CategoryFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(category.image_url ?? null);
+  const [imagePreview, setImagePreview] = useState<string | null>(category?.image_url ?? null);
+  const [iconName, setIconName] = useState(category?.icon_name ?? 'Package');
   const t = useTranslations('Admin.categoryForm');
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setImagePreview(file ? URL.createObjectURL(file) : category.image_url ?? null);
+    setImagePreview(file ? URL.createObjectURL(file) : category?.image_url ?? null);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +52,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
     formData.delete('image');
 
     startTransition(async () => {
-      let imageUrl = category.image_url ?? '';
+      let imageUrl = category?.image_url ?? '';
       if (imageFile) {
         const uploaded = await uploadCatalogImage(imageFile, 'categories');
         if (uploaded.error) {
@@ -50,10 +61,22 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
         }
         imageUrl = uploaded.url ?? imageUrl;
       }
+      if (!imageUrl) {
+        setError(t('imageRequired'));
+        return;
+      }
       formData.set('image_url', imageUrl);
+      formData.set('icon_name', iconName);
 
-      const result = await updateCategory(category.id, formData);
+      const result =
+        mode === 'create'
+          ? await createCategory(formData)
+          : await updateCategory(category!.id, formData);
+
       if (result.success) {
+        if (mode === 'create') {
+          router.push(`/${locale}/admin/categories`);
+        }
         setSaved(true);
         router.refresh();
       } else {
@@ -75,11 +98,11 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
           <Label htmlFor="name">
             {t('name')} <span className="text-orange-500">*</span>
           </Label>
-          <Input id="name" name="name" defaultValue={category.name} required />
+          <Input id="name" name="name" defaultValue={category?.name ?? ''} required />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="name_ar">{t('nameAr')}</Label>
-          <Input id="name_ar" name="name_ar" dir="rtl" defaultValue={category.name_ar ?? ''} />
+          <Input id="name_ar" name="name_ar" dir="rtl" defaultValue={category?.name_ar ?? ''} />
         </div>
       </div>
 
@@ -88,22 +111,38 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
           <Label htmlFor="short_name">
             {t('shortName')} <span className="text-orange-500">*</span>
           </Label>
-          <Input id="short_name" name="short_name" defaultValue={category.short_name} required />
+          <Input id="short_name" name="short_name" defaultValue={category?.short_name ?? ''} required />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="short_name_ar">{t('shortNameAr')}</Label>
-          <Input id="short_name_ar" name="short_name_ar" dir="rtl" defaultValue={category.short_name_ar ?? ''} />
+          <Input id="short_name_ar" name="short_name_ar" dir="rtl" defaultValue={category?.short_name_ar ?? ''} />
         </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="icon_name">{t('icon')}</Label>
+        <Select name="icon_name" value={iconName} onValueChange={setIconName}>
+          <SelectTrigger id="icon_name" className="w-full max-w-xs">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {ICON_OPTIONS.map((icon) => (
+              <SelectItem key={icon} value={icon}>
+                {icon}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="description">{t('description')}</Label>
-          <Textarea id="description" name="description" rows={4} defaultValue={category.description} />
+          <Textarea id="description" name="description" rows={4} defaultValue={category?.description ?? ''} />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="description_ar">{t('descriptionAr')}</Label>
-          <Textarea id="description_ar" name="description_ar" dir="rtl" rows={4} defaultValue={category.description_ar ?? ''} />
+          <Textarea id="description_ar" name="description_ar" dir="rtl" rows={4} defaultValue={category?.description_ar ?? ''} />
         </div>
       </div>
 
@@ -114,7 +153,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             id="features"
             name="features"
             rows={5}
-            defaultValue={(category.features ?? []).join('\n')}
+            defaultValue={(category?.features ?? []).join('\n')}
             placeholder={t('featuresPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('featuresHint')}</p>
@@ -126,7 +165,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             name="features_ar"
             dir="rtl"
             rows={5}
-            defaultValue={(category.features_ar ?? []).join('\n')}
+            defaultValue={(category?.features_ar ?? []).join('\n')}
             placeholder={t('featuresArPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('featuresHint')}</p>
@@ -140,7 +179,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             id="specifications"
             name="specifications"
             rows={5}
-            defaultValue={(category.specifications ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
+            defaultValue={(category?.specifications ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
             placeholder={t('specificationsPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('specificationsHint')}</p>
@@ -152,7 +191,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             name="specifications_ar"
             dir="rtl"
             rows={5}
-            defaultValue={(category.specifications_ar ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
+            defaultValue={(category?.specifications_ar ?? []).map((s) => `${s.label}: ${s.value}`).join('\n')}
             placeholder={t('specificationsArPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('specificationsHint')}</p>
@@ -166,7 +205,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             id="applications"
             name="applications"
             rows={4}
-            defaultValue={(category.applications ?? []).join('\n')}
+            defaultValue={(category?.applications ?? []).join('\n')}
             placeholder={t('applicationsPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('featuresHint')}</p>
@@ -178,7 +217,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
             name="applications_ar"
             dir="rtl"
             rows={4}
-            defaultValue={(category.applications_ar ?? []).join('\n')}
+            defaultValue={(category?.applications_ar ?? []).join('\n')}
             placeholder={t('applicationsArPlaceholder')}
           />
           <p className="text-xs text-navy-400">{t('featuresHint')}</p>
@@ -186,7 +225,9 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="image">{t('image')}</Label>
+        <Label htmlFor="image">
+          {t('image')} {mode === 'create' && <span className="text-orange-500">*</span>}
+        </Label>
         <div className="flex items-center gap-4">
           {imagePreview && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -214,7 +255,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
           id="sort_order"
           name="sort_order"
           type="number"
-          defaultValue={category.sort_order ?? 0}
+          defaultValue={category?.sort_order ?? 0}
           className="max-w-[160px]"
         />
       </div>
@@ -230,7 +271,7 @@ export function CategoryForm({ category, locale = 'en' }: CategoryFormProps) {
           ) : (
             <Save className="me-2 h-4 w-4" />
           )}
-          {t('save')}
+          {mode === 'create' ? t('create') : t('save')}
         </Button>
         <Button
           type="button"

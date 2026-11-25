@@ -469,7 +469,9 @@
       "applications": "الاستخدامات الشائعة",
       "applicationsAr": "الاستخدامات الشائعة (بالعربية)",
       "applicationsPlaceholder": "One application per line",
-      "applicationsArPlaceholder": "تطبيق واحد في كل سطر"
+      "applicationsArPlaceholder": "تطبيق واحد في كل سطر",
+      "icon": "الأيقونة",
+      "imageRequired": "الصورة مطلوبة."
     },
     "subCategoryForm": {
       "name": "الاسم",
@@ -478,6 +480,13 @@
       "error": "فشل الحفظ.",
       "datasheet": "نشرة البيانات (PDF)",
       "currentDatasheet": "نشرة البيانات الحالية"
+    },
+    "addCategory": "إضافة فئة",
+    "deleteCategoryButton": {
+      "confirm": "تأكيد",
+      "confirmWithCount": "حذف (و {count} منتج)",
+      "cancel": "إلغاء",
+      "deleteLabel": "حذف {name}"
     }
   },
   "Metadata": {

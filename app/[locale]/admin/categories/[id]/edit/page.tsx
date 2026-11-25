@@ -64,7 +64,7 @@ export default async function AdminEditCategoryPage({
       </div>
 
       <div className="max-w-3xl rounded-xl border border-navy-100 bg-white p-6 shadow-sm sm:p-8">
-        <CategoryForm category={category as Category} locale={locale} />
+        <CategoryForm category={category as Category} mode="edit" locale={locale} />
       </div>
 
       {subCategories && subCategories.length > 0 && (

@@ -197,16 +197,38 @@ function parseSpecLines(value: FormDataEntryValue | null): { label: string; valu
     .filter((spec): spec is { label: string; value: string } => !!spec && !!spec.label && !!spec.value);
 }
 
-export async function updateCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient();
+const CATEGORY_ICONS = new Set(['Package', 'Nut', 'Layers', 'Zap', 'Pipette', 'Hammer']);
 
+async function generateUniqueCategorySlug(
+  supabase: ReturnType<typeof createClient>,
+  name: string
+): Promise<string> {
+  const base = slugify(name);
+  let slug = base;
+  let suffix = 2;
+
+  while (true) {
+    const { data } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', slug)
+      .maybeSingle();
+    if (!data) return slug;
+    slug = `${base}-${suffix++}`;
+  }
+}
+
+function parseCategoryFields(formData: FormData) {
   const name = (formData.get('name') as string)?.trim();
   const nameAr = (formData.get('name_ar') as string)?.trim() || null;
   const shortName = (formData.get('short_name') as string)?.trim();
   const shortNameAr = (formData.get('short_name_ar') as string)?.trim() || null;
+  const iconNameRaw = (formData.get('icon_name') as string)?.trim();
+  const iconName = CATEGORY_ICONS.has(iconNameRaw) ? iconNameRaw : 'Package';
   const description = (formData.get('description') as string)?.trim() || '';
   const descriptionAr = (formData.get('description_ar') as string)?.trim() || null;
   const sortOrder = parseInt(formData.get('sort_order') as string, 10) || 0;
+  const imageUrl = (formData.get('image_url') as string)?.trim() || null;
   const features = parseLines(formData.get('features'));
   const featuresAr = parseLines(formData.get('features_ar'));
   const specifications = parseSpecLines(formData.get('specifications'));
@@ -214,35 +236,80 @@ export async function updateCategory(id: string, formData: FormData): Promise<{ 
   const applications = parseLines(formData.get('applications'));
   const applicationsAr = parseLines(formData.get('applications_ar'));
 
-  if (!name || !shortName) {
+  return {
+    name,
+    name_ar: nameAr,
+    short_name: shortName,
+    short_name_ar: shortNameAr,
+    icon_name: iconName,
+    description,
+    description_ar: descriptionAr,
+    sort_order: sortOrder,
+    image_url: imageUrl,
+    features,
+    features_ar: featuresAr.length > 0 ? featuresAr : null,
+    specifications,
+    specifications_ar: specificationsAr.length > 0 ? specificationsAr : null,
+    applications,
+    applications_ar: applicationsAr.length > 0 ? applicationsAr : null,
+  };
+}
+
+export async function createCategory(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+  const fields = parseCategoryFields(formData);
+
+  if (!fields.name || !fields.short_name) {
+    return { success: false, error: 'Category name and short name are required.' };
+  }
+  if (!fields.image_url) {
+    return { success: false, error: 'An image is required.' };
+  }
+
+  const slug = await generateUniqueCategorySlug(supabase, fields.name);
+
+  const { error } = await supabase.from('categories').insert({ ...fields, slug });
+
+  if (error) {
+    console.error('Error creating category:', error);
+    return { success: false, error: 'Failed to create category.' };
+  }
+
+  revalidatePath('/admin/categories');
+  revalidateTag('catalog');
+  return { success: true };
+}
+
+export async function updateCategory(id: string, formData: FormData): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+  const fields = parseCategoryFields(formData);
+
+  if (!fields.name || !fields.short_name) {
     return { success: false, error: 'Category name and short name are required.' };
   }
 
-  const imageUrl = (formData.get('image_url') as string)?.trim() || null;
-
-  const { error } = await supabase
-    .from('categories')
-    .update({
-      name,
-      name_ar: nameAr,
-      short_name: shortName,
-      short_name_ar: shortNameAr,
-      description,
-      description_ar: descriptionAr,
-      sort_order: sortOrder,
-      image_url: imageUrl,
-      features,
-      features_ar: featuresAr.length > 0 ? featuresAr : null,
-      specifications,
-      specifications_ar: specificationsAr.length > 0 ? specificationsAr : null,
-      applications,
-      applications_ar: applicationsAr.length > 0 ? applicationsAr : null,
-    })
-    .eq('id', id);
+  const { error } = await supabase.from('categories').update(fields).eq('id', id);
 
   if (error) {
     console.error('Error updating category:', error);
     return { success: false, error: 'Failed to update category.' };
+  }
+
+  revalidatePath('/admin/categories');
+  revalidateTag('catalog');
+  return { success: true };
+}
+
+export async function deleteCategory(id: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = createClient();
+
+  // sub_categories and products both cascade-delete when their category is
+  // removed - the confirmation UI is responsible for warning about that.
+  const { error } = await supabase.from('categories').delete().eq('id', id);
+
+  if (error) {
+    console.error('Error deleting category:', error);
+    return { success: false, error: 'Failed to delete category.' };
   }
 
   revalidatePath('/admin/categories');

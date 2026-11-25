@@ -1,11 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
-import { Layers, AlertCircle } from 'lucide-react';
+import { Layers, AlertCircle, Plus } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { withTimeout } from '@/lib/with-timeout';
 import { getCategoryIcon } from '@/lib/icons';
+import { Button } from '@/components/ui/button';
 import { RetryButton } from '@/components/admin/retry-button';
+import { DeleteCategoryButton } from '@/components/admin/delete-category-button';
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import type { Category } from '@/lib/types';
@@ -20,16 +22,28 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
   const [locale, t] = await Promise.all([getLocale(), getTranslations('Admin')]);
 
   let categories: Category[] = [];
+  let productCounts: Record<string, number> = {};
   let dbError = false;
 
   try {
     const supabase = createClient();
-    const result = await withTimeout(
-      supabase.from('categories').select('*').order('sort_order', { ascending: true }),
-      8000,
-      'categories'
-    );
-    categories = (result.data ?? []) as Category[];
+    const [categoriesResult, productsResult] = await Promise.all([
+      withTimeout(
+        supabase.from('categories').select('*').order('sort_order', { ascending: true }),
+        8000,
+        'categories'
+      ),
+      withTimeout(
+        supabase.from('products').select('category_id'),
+        8000,
+        'products'
+      ),
+    ]);
+    categories = (categoriesResult.data ?? []) as Category[];
+    productCounts = (productsResult.data ?? []).reduce<Record<string, number>>((acc, row) => {
+      acc[row.category_id] = (acc[row.category_id] ?? 0) + 1;
+      return acc;
+    }, {});
   } catch (err) {
     console.error('Admin categories page data fetch failed:', err);
     dbError = true;
@@ -47,11 +61,19 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-barlow text-2xl font-bold text-navy-900">{t('categoriesTitle')}</h1>
-        <p className="mt-1 text-sm text-navy-500">
-          {t('categoriesDesc', { count: categories.length })}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-barlow text-2xl font-bold text-navy-900">{t('categoriesTitle')}</h1>
+          <p className="mt-1 text-sm text-navy-500">
+            {t('categoriesDesc', { count: categories.length })}
+          </p>
+        </div>
+        <Button asChild className="bg-orange-500 text-white hover:bg-orange-600">
+          <Link href={`/${locale}/admin/categories/new`}>
+            <Plus className="me-2 h-4 w-4" />
+            {t('addCategory')}
+          </Link>
+        </Button>
       </div>
 
       <div className="overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm">
@@ -60,6 +82,7 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
             <tr>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('categoryCol')}</th>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('shortNameCol')}</th>
+              <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('productCol')}</th>
               <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-navy-500">{t('orderCol')}</th>
               <th className="px-5 py-3 text-end text-xs font-semibold uppercase tracking-wider text-navy-500">{t('actionsCol')}</th>
             </tr>
@@ -83,6 +106,7 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
                     </div>
                   </td>
                   <td className="px-5 py-3 text-sm text-navy-500">{cat.short_name}</td>
+                  <td className="px-5 py-3 text-sm text-navy-500">{productCounts[cat.id] ?? 0}</td>
                   <td className="px-5 py-3 text-sm text-navy-500">{cat.sort_order}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-2">
@@ -92,6 +116,11 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
                       >
                         {t('edit')}
                       </Link>
+                      <DeleteCategoryButton
+                        categoryId={cat.id}
+                        categoryName={cat.name}
+                        productCount={productCounts[cat.id] ?? 0}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -102,14 +131,17 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
 
         <div className="divide-y divide-navy-50 sm:hidden">
           {categories.map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/${locale}/admin/categories/${cat.id}/edit`}
-              className="block px-4 py-4"
-            >
-              <p className="text-sm font-semibold text-navy-900">{cat.name}</p>
-              <p className="mt-1 text-xs text-navy-500">{cat.short_name}</p>
-            </Link>
+            <div key={cat.id} className="flex items-center justify-between gap-3 px-4 py-4">
+              <Link href={`/${locale}/admin/categories/${cat.id}/edit`} className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-navy-900">{cat.name}</p>
+                <p className="mt-1 text-xs text-navy-500">{cat.short_name}</p>
+              </Link>
+              <DeleteCategoryButton
+                categoryId={cat.id}
+                categoryName={cat.name}
+                productCount={productCounts[cat.id] ?? 0}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -118,6 +150,12 @@ export default async function AdminCategoriesPage({ params }: { params: { locale
         <div className="rounded-xl border border-navy-100 bg-white p-12 text-center">
           <Layers className="mx-auto h-10 w-10 text-navy-300" />
           <p className="mt-3 text-sm text-navy-500">{t('noCategories')}</p>
+          <Button asChild className="mt-4 bg-orange-500 text-white hover:bg-orange-600">
+            <Link href={`/${locale}/admin/categories/new`}>
+              <Plus className="me-2 h-4 w-4" />
+              {t('addCategory')}
+            </Link>
+          </Button>
         </div>
       )}
     </div>
